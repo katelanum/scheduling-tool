@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.stage.*?>
+
+<Stage fx:id="appointmentStage" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+    <scene>
+        <Scene fx:id="appointmentScene" fill="#00004f00" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+            <AnchorPane fx:id="appointmentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="525.0" prefWidth="612.5" style="-fx-background-color: white; -fx-border-color: #a74cae#a74cae; -fx-border-radius: 20; -fx-background-radius: 25;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+                <children>
+                    <RadioButton fx:id="appointmentAddRadio" layoutX="96.0" layoutY="91.0" mnemonicParsing="false" text="Add">
+                        <font>
+                            <Font size="18.0" />
+                        </font>
+                  <toggleGroup>
+                     <ToggleGroup fx:id="appointmentRadioGroup" />
+                  </toggleGroup>
+                    </RadioButton>
+                    <RadioButton fx:id="appointmentUpdateRadio" layoutX="262.0" layoutY="91.0" mnemonicParsing="false" text="Update" toggleGroup="$appointmentRadioGroup">
+                        <font>
+                            <Font size="18.0" />
+                        </font>
+                    </RadioButton>
+                    <RadioButton fx:id="appointmentDeleteRadio" layoutX="464.0" layoutY="91.0" mnemonicParsing="false" text="Delete" toggleGroup="$appointmentRadioGroup">
+                        <font>
+                            <Font size="18.0" />
+                        </font>
+                    </RadioButton>
+                    <Text fx:id="appointmentsTitle" accessibleRoleDescription="appointments" layoutX="199.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appointments" textAlignment="CENTER">
+                        <font>
+                            <Font size="30.0" />
+                        </font>
+                    </Text>
+                    <TextField fx:id="appointmentTitleTextBox" layoutX="87.0" layoutY="223.0" prefHeight="29.0" prefWidth="480.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
+                    <Text fx:id="appointmentTitleText" layoutX="32.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title">
+                        <font>
+                            <Font size="18.0" />
+                        </font>
+                    </Text>
+                    <Text fx:id="descriptionText" layoutX="33.0" layoutY="301.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description">
+                        <font>
+                            <Font size="18.0" />
+                        </font>
+                    </Text>
+                    <TextField fx:id="addressTextBox" layoutX="138.0" layoutY="280.0" prefHeight="26.0" prefWidth="427.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
+                    <TextField fx:id="locationTextBox" layoutX="119.0" layoutY="342.0" prefHeight="27.0" prefWidth="141.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
+                    <Text fx:id="locationText" layoutX="31.0" layoutY="362.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location">
+                        <font>
+                            <Font size="18.0" />
+                        </font>
+                    </Text>
+                    <Text fx:id="customerText" layoutX="319.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer">
+                        <font>
+                            <Font size="18.0" />
+                        </font>
+                    </Text>
+                    <TextField fx:id="customerTextBox" layoutX="403.0" layoutY="159.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
+                    <TextField fx:id="appointmentIdTextBox" layoutX="160.0" layoutY="160.0" prefHeight="27.0" prefWidth="141.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
+                    <Text fx:id="appointmentIdText" layoutX="33.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appointment ID">
+                        <font>
+                            <Font size="18.0" />
+                        </font>
+                    </Text>
+                    <Text fx:id="contactText" layoutX="321.0" layoutY="362.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contact">
+                        <font>
+                            <Font size="18.0" />
+                        </font>
+                    </Text>
+                    <ComboBox fx:id="contactComboBox" layoutX="392.0" layoutY="341.0" prefHeight="27.0" prefWidth="174.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
+                    <Text fx:id="startDateText" layoutX="33.0" layoutY="419.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start">
+                        <font>
+                            <Font size="18.0" />
+                        </font>
+                    </Text>
+                    <Button layoutX="479.0" layoutY="457.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="81.0" style="-fx-background-color: #1a237e; -fx-background-radius: 5; -fx-border-color: #534bae; -fx-border-radius: 5; -fx-text-fill: white;" text="Save" textFill="#ffffff00">
+                        <font>
+                            <Font size="18.0" />
+                        </font>
+                    </Button>
+               <DatePicker fx:id="startDate" layoutX="88.0" layoutY="400.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
+               <DatePicker fx:id="endDate" layoutX="385.0" layoutY="401.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
+               <Text fx:id="endDateText" layoutX="341.0" layoutY="419.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End">
+                  <font>
+                     <Font size="18.0" />
+                  </font></Text>
+                </children>
+            </AnchorPane>
+        </Scene>
+    </scene>
+</Stage>
