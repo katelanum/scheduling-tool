@@ -11,25 +11,25 @@
         <Scene fx:id="logInScene" fill="#00004f00">
             <AnchorPane fx:id="logInPane" prefHeight="300.0" prefWidth="350.0" style="-fx-background-color: white; -fx-border-color: #a74cae; -fx-border-radius: 20; -fx-background-radius: 25;">
             <children>
-               <Button fx:id="logInButton" accessibleText="Log In" layoutX="267.0" layoutY="236.0" minWidth="100.0" mnemonicParsing="false" onAction="#logIn" style="-fx-background-color: #1a237e; -fx-background-radius: 5; -fx-border-color: #534bae; -fx-border-radius: 5;" text="Log In" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="266.0" AnchorPane.rightAnchor="31.0" AnchorPane.topAnchor="236.0" />
-               <TextField fx:id="usernameBox" layoutX="177.0" layoutY="102.0" promptText="username" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
-               <TextField fx:id="passwordBox" layoutX="177.0" layoutY="171.0" promptText="password" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
-               <Text id="LogInTitle" fx:id="logInTitle" accessibleText="Log In" layoutX="136.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Log  In" textAlignment="CENTER" wrappingWidth="127.95947265625">
+               <Button fx:id="logInButton" accessibleText="Log In" layoutX="267.0" layoutY="236.0" minWidth="100.0" mnemonicParsing="false" onAction="#logIn" style="-fx-background-color: #1a237e; -fx-background-radius: 5; -fx-border-color: #534bae; -fx-border-radius: 5;" text="%logIn" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="266.0" AnchorPane.rightAnchor="31.0" AnchorPane.topAnchor="236.0" />
+               <TextField fx:id="usernameBox" layoutX="177.0" layoutY="102.0" promptText="%username" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
+               <TextField fx:id="passwordBox" layoutX="177.0" layoutY="171.0" promptText="%password" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
+               <Text id="LogInTitle" fx:id="logInTitle" accessibleText="Log In" layoutX="136.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%logIn" textAlignment="CENTER" wrappingWidth="127.95947265625">
                   <font>
                      <Font size="30.0" />
                   </font>
                </Text>
-               <Text fx:id="usernameTitle" layoutX="46.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username">
+               <Text fx:id="usernameTitle" layoutX="46.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%username">
                   <font>
                      <Font name="System Font" size="18.0" />
                   </font>
                </Text>
-               <Text fx:id="passwordTitle" layoutX="47.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
+               <Text fx:id="passwordTitle" layoutX="47.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%password">
                   <font>
                      <Font size="18.0" />
                   </font>
                </Text>
-               <Text fx:id="loginLocationText" layoutX="73.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location">
+               <Text fx:id="loginLocationText" layoutX="73.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%location">
                   <font>
                      <Font size="14.0" />
                   </font>

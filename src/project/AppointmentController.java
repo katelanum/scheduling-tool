@@ -7,6 +7,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 public class AppointmentController {
     public Stage appointmentStage;
     public Scene appointmentScene;
@@ -35,6 +38,7 @@ public class AppointmentController {
     public Button appointmentSaveButton;
     private final Alert appointmentScreenAlert = new Alert(Alert.AlertType.WARNING);
     String addDeleteModStatus = "add";
+    private ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", new Locale("fr"));
 
     public void appointmentAddClick(ActionEvent actionEvent) {
         addDeleteModStatus = "add";
@@ -65,9 +69,9 @@ public class AppointmentController {
             currentStage.close();
         }
         else {
-            appointmentScreenAlert.setTitle("Unexpected Error");
-            appointmentScreenAlert.setHeaderText("Unknown Error");
-            appointmentScreenAlert.setContentText("Something did not go s expected, please close screen and retry");
+            appointmentScreenAlert.setTitle(languageBundle.getString("unexpErrorTitle"));
+            appointmentScreenAlert.setHeaderText(languageBundle.getString("unexpErrorHeader"));
+            appointmentScreenAlert.setContentText(languageBundle.getString("unexpErrorContent"));
             appointmentScreenAlert.showAndWait();
         }
     }

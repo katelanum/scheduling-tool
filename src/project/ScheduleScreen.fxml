@@ -16,7 +16,7 @@
         <Scene fx:id="scheduleScene" fill="#00004f00" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
             <AnchorPane fx:id="customerPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="758.0" prefWidth="1387.0" style="-fx-background-color: white; -fx-border-color: #a74cae#a74cae; -fx-border-radius: 20; -fx-background-radius: 25;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
                 <children>
-                    <RadioButton fx:id="weekViewRadio" layoutX="313.0" layoutY="90.0" mnemonicParsing="false" onAction="#weekViewClick" text="Week View">
+                    <RadioButton fx:id="weekViewRadio" layoutX="313.0" layoutY="90.0" mnemonicParsing="false" onAction="#weekViewClick" text="%weekView">
                         <font>
                             <Font size="18.0" />
                         </font>
@@ -24,40 +24,40 @@
                             <ToggleGroup fx:id="appointmentRadioGroup" />
                         </toggleGroup>
                     </RadioButton>
-                    <RadioButton fx:id="monthViewRadio" layoutX="959.0" layoutY="97.0" mnemonicParsing="false" onAction="#monthViewClick" text="Month View" toggleGroup="$appointmentRadioGroup">
+                    <RadioButton fx:id="monthViewRadio" layoutX="959.0" layoutY="97.0" mnemonicParsing="false" onAction="#monthViewClick" text="%monthView" toggleGroup="$appointmentRadioGroup">
                         <font>
                             <Font size="18.0" />
                         </font>
                     </RadioButton>
-                    <Text fx:id="scheduleTitle" accessibleRoleDescription="appointments" layoutX="635.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Schedule" textAlignment="CENTER">
+                    <Text fx:id="scheduleTitle" accessibleRoleDescription="appointments" layoutX="635.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%schedule" textAlignment="CENTER">
                         <font>
                             <Font size="30.0" />
                         </font>
                     </Text>
-                    <Button fx:id="scheduleClose" layoutX="1237.0" layoutY="691.0" mnemonicParsing="false" onAction="#scheduleCloseClick" prefHeight="27.0" prefWidth="81.0" style="-fx-background-color: #1a237e; -fx-background-radius: 5; -fx-border-color: #534bae; -fx-border-radius: 5; -fx-text-fill: white;" text="Close" textFill="#ffffff00">
+                    <Button fx:id="scheduleClose" layoutX="1237.0" layoutY="691.0" mnemonicParsing="false" onAction="#scheduleCloseClick" prefHeight="27.0" prefWidth="81.0" style="-fx-background-color: #1a237e; -fx-background-radius: 5; -fx-border-color: #534bae; -fx-border-radius: 5; -fx-text-fill: white;" text="%close" textFill="#ffffff00">
                         <font>
                             <Font size="18.0" />
                         </font>
                     </Button>
                <TableView fx:id="scheduleTableView" layoutX="24.0" layoutY="145.0" prefHeight="527.0" prefWidth="1341.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;">
                  <columns>
-                   <TableColumn prefWidth="125.0" text="Appointment ID" />
-                   <TableColumn prefWidth="125.0" text="Title" />
-                     <TableColumn prefWidth="335.0" text="Description" />
-                     <TableColumn prefWidth="125.0" text="Location" />
-                     <TableColumn prefWidth="125.0" text="Contact" />
-                     <TableColumn prefWidth="150.0" text="Type" />
-                     <TableColumn minWidth="0.0" prefWidth="115.0" text="Start" />
-                     <TableColumn prefWidth="115.0" text="End" />
-                     <TableColumn prefWidth="125.0" text="Customer ID" />
+                   <TableColumn prefWidth="125.0" text="%appointmentIDWords" />
+                   <TableColumn prefWidth="125.0" text="%title" />
+                     <TableColumn prefWidth="335.0" text="%description" />
+                     <TableColumn prefWidth="125.0" text="%location" />
+                     <TableColumn prefWidth="125.0" text="%contactWord" />
+                     <TableColumn prefWidth="150.0" text="%type" />
+                     <TableColumn minWidth="0.0" prefWidth="115.0" text="%start" />
+                     <TableColumn prefWidth="115.0" text="%end" />
+                     <TableColumn prefWidth="125.0" text="%customerIDWords" />
                  </columns>
                </TableView>
-               <Button fx:id="openAppointmentButton" layoutX="919.0" layoutY="692.0" mnemonicParsing="false" onAction="#openAppointmentClick" prefHeight="37.0" prefWidth="189.0" style="-fx-background-color: #1a237e; -fx-background-radius: 5; -fx-border-color: #534bae; -fx-border-radius: 5; -fx-text-fill: white;" text="Appointment Screen" textFill="#ffffff00">
+               <Button fx:id="openAppointmentButton" layoutX="919.0" layoutY="692.0" mnemonicParsing="false" onAction="#openAppointmentClick" prefHeight="37.0" prefWidth="189.0" style="-fx-background-color: #1a237e; -fx-background-radius: 5; -fx-border-color: #534bae; -fx-border-radius: 5; -fx-text-fill: white;" text="%appointmentScreen" textFill="#ffffff00">
                   <font>
                      <Font size="18.0" />
                   </font>
                </Button>
-               <Button fx:id="openCustomerButton" layoutX="290.0" layoutY="692.0" mnemonicParsing="false" onAction="#openCustomerClick" prefHeight="37.0" prefWidth="167.0" style="-fx-background-color: #1a237e; -fx-background-radius: 5; -fx-border-color: #534bae; -fx-border-radius: 5; -fx-text-fill: white;" text="Customer Screen" textFill="#ffffff00">
+               <Button fx:id="openCustomerButton" layoutX="290.0" layoutY="692.0" mnemonicParsing="false" onAction="#openCustomerClick" prefHeight="37.0" prefWidth="167.0" style="-fx-background-color: #1a237e; -fx-background-radius: 5; -fx-border-color: #534bae; -fx-border-radius: 5; -fx-text-fill: white;" text="%customerScreen" textFill="#ffffff00">
                   <font>
                      <Font size="18.0" />
                   </font>

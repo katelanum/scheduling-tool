@@ -7,6 +7,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 public class CustomerController {
     public Stage LogInStage;
     public Scene CustomerScene;
@@ -33,6 +36,7 @@ public class CustomerController {
     public Button customerSaveButton;
     String addDeleteModStatus = "add";
     private final Alert customerScreenAlert = new Alert(Alert.AlertType.WARNING);
+    private ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", new Locale("fr"));
 
     public void customerAddClick(ActionEvent actionEvent) {
         addDeleteModStatus = "add";
@@ -66,9 +70,9 @@ public class CustomerController {
             currentStage.close();
         }
         else {
-            customerScreenAlert.setTitle("Unexpected Error");
-            customerScreenAlert.setHeaderText("Unknown Error");
-            customerScreenAlert.setContentText("Something did not go s expected, please close screen and retry");
+            customerScreenAlert.setTitle(languageBundle.getString("unexpErrorTitle"));
+            customerScreenAlert.setHeaderText(languageBundle.getString("unexpErrorHeader"));
+            customerScreenAlert.setContentText(languageBundle.getString("unexpErrorContent"));
             customerScreenAlert.showAndWait();
         }
     }

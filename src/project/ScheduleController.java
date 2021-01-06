@@ -12,6 +12,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class ScheduleController {
     public Stage scheduleStage;
@@ -28,12 +30,14 @@ public class ScheduleController {
     public TableView scheduleTableView;
 
     public void openAppointmentClick(ActionEvent actionEvent) throws IOException {
-        Stage loader = FXMLLoader.load(getClass().getResource("AppointmentScreen.fxml"));
+        ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", new Locale("fr"));
+        Stage loader = FXMLLoader.load(getClass().getResource("AppointmentScreen.fxml"), languageBundle);
         loader.show();
     }
 
     public void openCustomerClick(ActionEvent actionEvent) throws IOException {
-        Stage loader = FXMLLoader.load(getClass().getResource("CustomerScreen.fxml"));
+        ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", new Locale("fr"));
+        Stage loader = FXMLLoader.load(getClass().getResource("CustomerScreen.fxml"), languageBundle);
         loader.show();
     }
 
