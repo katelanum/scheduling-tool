@@ -6,7 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+import java.sql.*;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -37,6 +37,8 @@ public class CustomerController {
     String addDeleteModStatus = "add";
     private final Alert customerScreenAlert = new Alert(Alert.AlertType.WARNING);
     private ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", new Locale("fr"));
+    private int custId;
+    private Customer tempCust;
 
     public void customerAddClick(ActionEvent actionEvent) {
         addDeleteModStatus = "add";
@@ -44,10 +46,14 @@ public class CustomerController {
 
     public void customerUpdateClick(ActionEvent actionEvent) {
         addDeleteModStatus = "update";
+        custId = Integer.parseInt(customerIdTextBox.getText());
+        tempCust = Database.getCustomer(custId);
     }
 
     public void customerDeleteClick(ActionEvent actionEvent) {
         addDeleteModStatus = "delete";
+        custId = Integer.parseInt(customerIdTextBox.getText());
+        tempCust = Database.getCustomer(custId);
     }
 
     public void countryComboSelect(ActionEvent actionEvent) {
@@ -58,14 +64,17 @@ public class CustomerController {
 
     public void customerSaveClick(ActionEvent actionEvent) {
         if (addDeleteModStatus.equalsIgnoreCase("add")) {
+            Database.addCustomer(tempCust);
             Stage currentStage = (Stage) customerSaveButton.getScene().getWindow();
             currentStage.close();
         }
         else if(addDeleteModStatus.equalsIgnoreCase("delete")) {
+            Database.deleteCustomer(custId);
             Stage currentStage = (Stage) customerSaveButton.getScene().getWindow();
             currentStage.close();
         }
         else if(addDeleteModStatus.equalsIgnoreCase("update")) {
+            Database.updateCustomer(tempCust);
             Stage currentStage = (Stage) customerSaveButton.getScene().getWindow();
             currentStage.close();
         }
@@ -75,5 +84,6 @@ public class CustomerController {
             customerScreenAlert.setContentText(languageBundle.getString("unexpErrorContent"));
             customerScreenAlert.showAndWait();
         }
+        tempCust = null;
     }
 }

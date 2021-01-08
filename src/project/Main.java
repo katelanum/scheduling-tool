@@ -5,8 +5,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import java.sql.*;
 
 import java.util.*;
+
+
 
 //colors: https://material.io/resources/color/#!/?view.left=0&view.right=1&primary.color=1A237E&secondary.color=761a7e
 
@@ -36,8 +39,8 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
+
         launch(args);
     }
-
 
 }
