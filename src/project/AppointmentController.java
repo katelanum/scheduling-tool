@@ -44,6 +44,7 @@ public class AppointmentController {
     private Date appointmentStart = new Date();
     private Date appointmentEnd = new Date();
     private Appointment tempApp;
+    private Appointment currentApp;
     private int appID;
 
     public void appointmentAddClick(ActionEvent actionEvent) {
@@ -54,6 +55,48 @@ public class AppointmentController {
         addDeleteModStatus = "update";
         appID = Integer.parseInt(appointmentIdTextBox.getText());
         tempApp = Database.getAppointment(appID);
+        appointmentIdTextBox.setText(tempApp.getTitle());
+        //addressTextBox.setText(tempApp.get);
+        locationTextBox.setText(tempApp.getLocation());
+        customerTextBox.setText(String.valueOf(tempApp.getCustomerId()));
+    }
+
+    private void setCurrentApp(int appointmentId) {
+        //get title from database
+        //currentApp.setTitle(appointmentTitleTextBox.getText());
+        currentApp.setAppointmentId(Integer.parseInt(appointmentIdTextBox.getText()));
+        // get contact ID from database
+        //currentApp.setContactId(Integer.parseInt(contactComboBox.toString()));
+        // get customer ID from database
+        //currentApp.setCustomerId(customerTextBox);
+        // get description from database
+        //currentApp.setDescription();
+        // get end from database
+        //currentApp.setEnd(appointmentEnd);
+        // get location from database
+        //currentApp.setLocation(locationTextBox.getText());
+        // get type from database
+        //tempApp.setType();
+        // get start from database
+        //currentApp.setStart(appointmentStart);
+        // pull customer ID from database
+        //currentApp.setCustomerId();
+    }
+
+    public void tempAppMaker() {
+        tempApp.setTitle(appointmentTitleTextBox.getText());
+        tempApp.setAppointmentId(Integer.parseInt(appointmentIdTextBox.getText()));
+        // get contact ID from database
+        //tempApp.setContactId(Integer.parseInt(contactComboBox.toString()));
+        // get customer ID from database
+        //tempApp.setCustomerId(customerTextBox);
+        //tempApp.setDescription();
+        tempApp.setEnd(appointmentEnd);
+        tempApp.setLocation(locationTextBox.getText());
+        //tempApp.setType();
+        tempApp.setStart(appointmentStart);
+        // pull customer ID from database
+        //tempApp.setCustomerId();
     }
 
     public void appointmentDeleteClick(ActionEvent actionEvent) {
@@ -90,6 +133,7 @@ public class AppointmentController {
     public void appointmentSaveClick(ActionEvent actionEvent) {
         appointmentStart = java.sql.Date.valueOf(startDate.getValue());
         appointmentEnd = java.sql.Date.valueOf(endDate.getValue());
+        tempAppMaker();
         if (addDeleteModStatus.equalsIgnoreCase("add")) {
             timeCheck(appointmentStart,appointmentEnd);
             if (isValidTime) {
@@ -106,6 +150,7 @@ public class AppointmentController {
         else if(addDeleteModStatus.equalsIgnoreCase("update")) {
             timeCheck(appointmentStart,appointmentEnd);
             if (isValidTime) {
+                Database.deleteAppointment(appID);
                 Database.updateAppointment(tempApp);
                 Stage currentStage = (Stage) appointmentSaveButton.getScene().getWindow();
                 currentStage.close();
