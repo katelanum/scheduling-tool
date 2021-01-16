@@ -9,95 +9,120 @@
 <Stage fx:id="customerStage" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.CustomerController">
     <scene>
         <Scene fx:id="CustomerScene" fill="#00004f00" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-            <AnchorPane fx:id="customerPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="786.0" prefWidth="1387.0" style="-fx-background-color: white; -fx-border-color: #a74cae#a74cae; -fx-border-radius: 20; -fx-background-radius: 25;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-                <children>
-               <TableView fx:id="customerTableView" editable="true" layoutX="23.0" layoutY="116.0" prefHeight="467.0" prefWidth="1341.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;">
-                  <columns>
-                     <TableColumn fx:id="customerIDColumn" prefWidth="135.0" text="%customerIDWords" />
-                     <TableColumn fx:id="customerNameColumn" prefWidth="230.0" text="%name" />
-                     <TableColumn fx:id="customerAddressColumn" prefWidth="325.0" text="%address" />
-                     <TableColumn fx:id="customerZipColumn" prefWidth="158.0" text="%zip" />
-                     <TableColumn fx:id="customerCountryColumn" prefWidth="181.0" text="%country" />
-                     <TableColumn fx:id="customerStateColumn" prefWidth="182.0" text="%state" />
-                     <TableColumn fx:id="customerPhoneNumber" minWidth="0.0" prefWidth="127.0" text="%phoneNumber" />
-                  </columns>
-               </TableView>
-                    <RadioButton fx:id="customerAddRadio" layoutX="275.0" layoutY="79.0" mnemonicParsing="false" onAction="#customerAddClick" text="%addWord">
-                        <font>
-                            <Font size="18.0" />
-                        </font>
-                        <toggleGroup>
-                            <ToggleGroup fx:id="customerRadioGroup" />
-                        </toggleGroup>
-                    </RadioButton>
-                    <RadioButton fx:id="customerUpdateRadio" layoutX="633.0" layoutY="79.0" mnemonicParsing="false" onAction="#customerUpdateClick" text="%updateWord" toggleGroup="$customerRadioGroup">
-                        <font>
-                            <Font size="18.0" />
-                        </font>
-                    </RadioButton>
-                    <RadioButton fx:id="customerDeleteRadio" layoutX="1018.0" layoutY="79.0" mnemonicParsing="false" onAction="#customerDeleteClick" text="%deleteWord" toggleGroup="$customerRadioGroup">
-                        <font>
-                            <Font size="18.0" />
-                        </font>
-                    </RadioButton>
-                    <Text fx:id="customerRecordTitle" layoutX="588.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%customerRecord" textAlignment="CENTER">
-                        <font>
-                            <Font size="30.0" />
-                        </font>
-                    </Text>
-                    <TextField fx:id="nameTextBox" layoutX="497.0" layoutY="604.0" prefHeight="24.0" prefWidth="200.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
-                    <Text fx:id="nameText" layoutX="424.0" layoutY="625.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%name">
-                        <font>
-                            <Font size="18.0" />
-                        </font>
-                    </Text>
-                    <Text fx:id="addressText" layoutX="737.0" layoutY="625.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%address">
-                        <font>
-                            <Font size="18.0" />
-                        </font>
-                    </Text>
-                    <TextField fx:id="addressTextBox" layoutX="853.0" layoutY="604.0" prefHeight="27.0" prefWidth="452.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
-                    <TextField fx:id="zipTextBox" layoutX="151.0" layoutY="666.0" prefHeight="27.0" prefWidth="141.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
-                    <Text fx:id="zipText" layoutX="33.0" layoutY="686.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%zip">
-                        <font>
-                            <Font size="18.0" />
-                        </font>
-                    </Text>
-                    <Text fx:id="phoneText" layoutX="900.0" layoutY="686.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%phoneNumber">
-                        <font>
-                            <Font size="18.0" />
-                        </font>
-                    </Text>
-                    <TextField fx:id="phoneTextBox" layoutX="1131.0" layoutY="665.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
-                    <TextField fx:id="customerIdTextBox" editable="false" layoutX="245.0" layoutY="604.0" prefHeight="27.0" prefWidth="141.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
-                    <Text fx:id="customerIdText" layoutX="70.0" layoutY="625.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%customerIDWords">
-                        <font>
-                            <Font size="18.0" />
-                        </font>
-                    </Text>
-                    <Text fx:id="countryText" layoutX="321.0" layoutY="687.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%country">
-                        <font>
-                            <Font size="18.0" />
-                        </font>
-                    </Text>
-                    <ComboBox fx:id="countryComboBox" layoutX="410.0" layoutY="666.0" onAction="#countryComboSelect" prefHeight="27.0" prefWidth="174.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
-                    <ComboBox fx:id="stateComboBox" layoutX="718.0" layoutY="666.0" onAction="#stateComboSelect" prefWidth="150.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
-                    <Text fx:id="stateText" layoutX="651.0" layoutY="687.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%state">
-                        <font>
-                            <Font size="18.0" />
-                        </font>
-                    </Text>
-                    <Button fx:id="customerSaveButton" layoutX="1248.0" layoutY="720.0" mnemonicParsing="false" onAction="#customerSaveClick" prefHeight="37.0" prefWidth="91.0" style="-fx-background-color: #1a237e; -fx-background-radius: 5; -fx-border-color: #534bae; -fx-border-radius: 5; -fx-text-fill: white;" text="%save" textFill="#ffffff00">
-                        <font>
-                            <Font size="18.0" />
-                        </font>
-                    </Button>
-               <Button fx:id="customerCancelButton" layoutX="1092.0" layoutY="720.0" mnemonicParsing="false" onAction="#customerCancelClick" prefHeight="37.0" prefWidth="108.0" style="-fx-background-color: #1a237e; -fx-background-radius: 5; -fx-border-color: #534bae; -fx-border-radius: 5; -fx-text-fill: white;" text="%cancel" textFill="#ffffff00">
-                  <font>
-                     <Font size="18.0" />
-                  </font>
-               </Button>
-                </children>
+            <AnchorPane fx:id="customerPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                        minWidth="-Infinity" prefHeight="786.0" prefWidth="1387.0"
+                        style="-fx-background-color: white; -fx-border-color: #a74cae#a74cae; -fx-border-radius: 20; -fx-background-radius: 25;"
+                        xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+                <TableView fx:id="customerTableView" editable="true" layoutX="23.0" layoutY="116.0" prefHeight="467.0"
+                           prefWidth="1341.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;">
+                    <columns>
+                        <TableColumn fx:id="customerIDColumn" prefWidth="135.0" text="%customerIDWords"/>
+                        <TableColumn fx:id="customerNameColumn" prefWidth="230.0" text="%name"/>
+                        <TableColumn fx:id="customerAddressColumn" prefWidth="325.0" text="%address"/>
+                        <TableColumn fx:id="customerZipColumn" prefWidth="158.0" text="%zip"/>
+                        <TableColumn fx:id="customerCountryColumn" prefWidth="181.0" text="%country"/>
+                        <TableColumn fx:id="customerStateColumn" prefWidth="182.0" text="%state"/>
+                        <TableColumn fx:id="customerPhoneNumber" minWidth="0.0" prefWidth="127.0" text="%phoneNumber"/>
+                    </columns>
+                </TableView>
+                <RadioButton fx:id="customerAddRadio" layoutX="275.0" layoutY="79.0" mnemonicParsing="false"
+                             onAction="#customerAddClick" text="%addWord">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                    <toggleGroup>
+                        <ToggleGroup fx:id="customerRadioGroup"/>
+                    </toggleGroup>
+                </RadioButton>
+                <RadioButton fx:id="customerUpdateRadio" layoutX="633.0" layoutY="79.0" mnemonicParsing="false"
+                             onAction="#customerUpdateClick" text="%updateWord" toggleGroup="$customerRadioGroup">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </RadioButton>
+                <RadioButton fx:id="customerDeleteRadio" layoutX="1018.0" layoutY="79.0" mnemonicParsing="false"
+                             onAction="#customerDeleteClick" text="%deleteWord" toggleGroup="$customerRadioGroup">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </RadioButton>
+                <Text fx:id="customerRecordTitle" layoutX="588.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                      text="%customerRecord" textAlignment="CENTER">
+                    <font>
+                        <Font size="30.0"/>
+                    </font>
+                </Text>
+                <TextField fx:id="nameTextBox" layoutX="497.0" layoutY="604.0" prefHeight="24.0" prefWidth="200.0"
+                           style="-fx-border-color: #a74cae; -fx-border-radius: 5;"/>
+                <Text fx:id="nameText" layoutX="424.0" layoutY="625.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                      text="%name">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Text>
+                <Text fx:id="addressText" layoutX="737.0" layoutY="625.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                      text="%address">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Text>
+                <TextField fx:id="addressTextBox" layoutX="853.0" layoutY="604.0" prefHeight="27.0" prefWidth="452.0"
+                           style="-fx-border-color: #a74cae; -fx-border-radius: 5;"/>
+                <TextField fx:id="zipTextBox" layoutX="151.0" layoutY="666.0" prefHeight="27.0" prefWidth="141.0"
+                           style="-fx-border-color: #a74cae; -fx-border-radius: 5;"/>
+                <Text fx:id="zipText" layoutX="33.0" layoutY="686.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%zip">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Text>
+                <Text fx:id="phoneText" layoutX="900.0" layoutY="686.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                      text="%phoneNumber">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Text>
+                <TextField fx:id="phoneTextBox" layoutX="1131.0" layoutY="665.0"
+                           style="-fx-border-color: #a74cae; -fx-border-radius: 5;"/>
+                <TextField fx:id="customerIdTextBox" editable="false" layoutX="245.0" layoutY="604.0" prefHeight="27.0"
+                           prefWidth="141.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;"/>
+                <Text fx:id="customerIdText" layoutX="70.0" layoutY="625.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                      text="%customerIDWords">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Text>
+                <Text fx:id="countryText" layoutX="321.0" layoutY="687.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                      text="%country">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Text>
+                <ComboBox fx:id="countryComboBox" layoutX="410.0" layoutY="666.0" onAction="#countryComboSelect"
+                          prefHeight="27.0" prefWidth="174.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;"/>
+                <ComboBox fx:id="stateComboBox" layoutX="718.0" layoutY="666.0" onAction="#stateComboSelect"
+                          prefWidth="150.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;"/>
+                <Text fx:id="stateText" layoutX="651.0" layoutY="687.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                      text="%state">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Text>
+                <Button fx:id="customerSaveButton" layoutX="1248.0" layoutY="720.0" mnemonicParsing="false"
+                        onAction="#customerSaveClick" prefHeight="37.0" prefWidth="91.0"
+                        style="-fx-background-color: #1a237e; -fx-background-radius: 5; -fx-border-color: #534bae; -fx-border-radius: 5; -fx-text-fill: white;"
+                        text="%save" textFill="#ffffff00">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Button>
+                <Button fx:id="customerCancelButton" layoutX="1092.0" layoutY="720.0" mnemonicParsing="false"
+                        onAction="#customerCancelClick" prefHeight="37.0" prefWidth="108.0"
+                        style="-fx-background-color: #1a237e; -fx-background-radius: 5; -fx-border-color: #534bae; -fx-border-radius: 5; -fx-text-fill: white;"
+                        text="%cancel" textFill="#ffffff00">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Button>
             </AnchorPane>
         </Scene>
     </scene>

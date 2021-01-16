@@ -1,0 +1,34 @@
+Jan 15, 2021 7:08:49 PM project.LoginController logLoginSuccess
+INFO: Successful login: 2021-01-15T19:08:40.127-08:00[America/Los_Angeles]
+Jan 15, 2021 7:24:31 PM project.LoginController logLoginFailure
+INFO: Failed login attempt: 19:24 01-15-2021
+Jan 15, 2021 7:24:58 PM project.LoginController logLoginSuccess
+INFO: Successful login: 19:24 01-15-2021
+Jan 15, 2021 7:27:22 PM project.LoginController logLoginSuccess
+INFO: Successful login: 19:27 01-15-2021
+Jan 15, 2021 7:28:45 PM project.LoginController logLoginSuccess
+INFO: Successful login: 19:28 01-15-2021
+Jan 15, 2021 9:53:36 PM project.LoginController logLoginSuccess
+INFO: Successful login: 21:53 01-15-2021
+Jan 15, 2021 9:55:42 PM project.LoginController logLoginSuccess
+INFO: Successful login: 21:55 01-15-2021
+Jan 15, 2021 9:56:42 PM project.LoginController logLoginSuccess
+INFO: Successful login: 21:56 01-15-2021
+Jan 15, 2021 10:02:25 PM project.LoginController logLoginSuccess
+INFO: Successful login: 22:02 01-15-2021
+Jan 15, 2021 10:05:37 PM project.LoginController logLoginSuccess
+INFO: Successful login: 22:05 01-15-2021
+Jan 15, 2021 10:06:44 PM project.LoginController logLoginSuccess
+INFO: Successful login: 22:06 01-15-2021
+Jan 15, 2021 10:07:26 PM project.LoginController logLoginSuccess
+INFO: Successful login: 22:07 01-15-2021
+Jan 15, 2021 10:10:35 PM project.LoginController logLoginSuccess
+INFO: Successful login: 22:10 01-15-2021
+Jan 15, 2021 10:12:38 PM project.LoginController logLoginSuccess
+INFO: Successful login: 22:12 01-15-2021
+Jan 15, 2021 10:14:55 PM project.LoginController logLoginSuccess
+INFO: Successful login: 22:14 01-15-2021
+Jan 15, 2021 10:24:48 PM project.LoginController logLoginSuccess
+INFO: Successful login: 22:24 01-15-2021
+Jan 15, 2021 10:40:30 PM project.LoginController logLoginSuccess
+INFO: Successful login: 22:40 01-15-2021

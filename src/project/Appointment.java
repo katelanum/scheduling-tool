@@ -5,11 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.time.*;
 
-// add, update, and delete appointments
-// read in the fields from the database
 public class Appointment {
-    // appointmentId will be in string format because despite being a number, it will not be getting manipulated
-    // like one, formatting it as a string allows for better control of what is being done with the appointmentId
     private int appointmentId;
     private String title;
     private String description;
@@ -21,13 +17,12 @@ public class Appointment {
     private String creator;
     private Date modifyTime;
     private String lastModifier;
-    //customerId is a foreign key to the customer record
     private int customerId;
     private String customerName;
     private int userId;
     private int contactId;
     private String contactName;
-    DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm MM-dd-yyyy");
+    private final DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm MM-dd-yyyy");
 
     public ZonedDateTime getStart() {
         return start;
@@ -160,7 +155,6 @@ public class Appointment {
     public void setStart(Timestamp startTime) {
         LocalDateTime localStart = startTime.toLocalDateTime();
         start = ZonedDateTime.of(localStart,ZoneId.of("UTC"));
-
     }
 
     public void setEnd(Timestamp endTime) {

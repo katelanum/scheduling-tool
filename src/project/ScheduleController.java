@@ -11,15 +11,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import java.sql.*;
 import java.io.IOException;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -28,9 +24,7 @@ public class ScheduleController {
     public Scene scheduleScene;
     public AnchorPane customerPane;
     public RadioButton weekViewRadio;
-    public ToggleGroup appointmentRadioGroup;
     public RadioButton monthViewRadio;
-    public Text appointmentsTitle;
     public Button openAppointmentButton;
     public Button openCustomerButton;
     public Text scheduleTitle;
@@ -47,23 +41,19 @@ public class ScheduleController {
     public TableColumn<Appointment, Integer> appointmentCustomerIdColumn;
     public Button openReportsButton;
     public RadioButton allViewRadio;
-    private ObservableList<Appointment> weekApp = FXCollections.observableArrayList();
-    private ObservableList<Appointment> monthApp = FXCollections.observableArrayList();
-    private ObservableList<Appointment> allApp = FXCollections.observableArrayList();
-    //private Date currentDate = Date.from(Instant.now());
-    private ZonedDateTime currentDT = ZonedDateTime.now();
-    private ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
-    private AppointmentController appointmentController;
-    private CustomerController customerController;
-    private LoginController loginController;
-    LocalDateTime currentUserDT = LocalDateTime.now();
+    public ToggleGroup scheduleRadioGroup;
+    private final ObservableList<Appointment> weekApp = FXCollections.observableArrayList();
+    private final ObservableList<Appointment> monthApp = FXCollections.observableArrayList();
+    private final ObservableList<Appointment> allApp = FXCollections.observableArrayList();
+    private final ZonedDateTime currentDT = ZonedDateTime.now();
+    private final ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
     DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm MM-dd-yyyy");
 
     public void openAppointmentClick(ActionEvent actionEvent) throws IOException {
         ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AppointmentScreen.fxml"), languageBundle);
         Stage stage = loader.load();
-        AppointmentController controller = loader.<AppointmentController>getController();
+        AppointmentController controller = loader.getController();
         controller.setScheduleController(this);
         stage.show();
     }
@@ -72,7 +62,7 @@ public class ScheduleController {
         ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
         FXMLLoader loader = new FXMLLoader(getClass().getResource("CustomerScreen.fxml"), languageBundle);
         Stage stage = loader.load();
-        CustomerController controller = loader.<CustomerController>getController();
+        CustomerController controller = loader.getController();
         controller.setScheduleController(this);
         stage.show();
     }
@@ -84,9 +74,9 @@ public class ScheduleController {
 
     public void monthViewClick(ActionEvent actionEvent) {
         monthApp.clear();
-        for (int i = 0; i < allApp.size(); i++) {
-            if((allApp.get(i).getEnd().getYear() == currentDT.getYear()) && (allApp.get(i).getStart().getMonth() == currentDT.getMonth())) {
-                monthApp.add(allApp.get(i));
+        for (Appointment appointment : allApp) {
+            if ((appointment.getEnd().getYear() == currentDT.getYear()) && (appointment.getStart().getMonth() == currentDT.getMonth())) {
+                monthApp.add(appointment);
             }
         }
         scheduleTableView.setItems(monthApp);
@@ -100,12 +90,12 @@ public class ScheduleController {
 
     public void weekViewClick(ActionEvent actionEvent) {
         weekApp.clear();
-        for (int i = 0; i < allApp.size(); i++) {
-            if ((allApp.get(i).getEnd().getYear() == currentDT.getYear()) &&
-                    (allApp.get(i).getEnd().getMonth() == currentDT.getMonth()) &&
-                    (allApp.get(i).getEnd().getDayOfMonth() <= currentDT.getDayOfMonth() + 7) &&
-                    (allApp.get(i).getStart().getDayOfMonth() >=  currentDT.getDayOfMonth())) {
-                weekApp.add(allApp.get(i));
+        for (Appointment appointment : allApp) {
+            if ((appointment.getEnd().getYear() == currentDT.getYear()) &&
+                    (appointment.getEnd().getMonth() == currentDT.getMonth()) &&
+                    (appointment.getEnd().getDayOfMonth() <= currentDT.getDayOfMonth() + 7) &&
+                    (appointment.getStart().getDayOfMonth() >= currentDT.getDayOfMonth())) {
+                weekApp.add(appointment);
             }
         }
         scheduleTableView.setItems(weekApp);
@@ -135,18 +125,6 @@ public class ScheduleController {
         ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
         Stage loader = FXMLLoader.load(getClass().getResource("ReportsScreen.fxml"), languageBundle);
         loader.show();
-    }
-
-    public void setAppointmentController(AppointmentController appointmentController) {
-        this.appointmentController = appointmentController;
-    }
-
-    public void setCustomerController(CustomerController customerController) {
-        this.customerController = customerController;
-    }
-
-    public void setLoginController(LoginController loginController) {
-        this.loginController = loginController;
     }
 
     public void allViewClick(ActionEvent actionEvent) {

@@ -1,8 +1,4 @@
 package project;
-// accept user name and password
-//determine location and display as "loginLocationText"
-//translate to French if location demands
-//error control messages for login problems
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,12 +13,15 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.sql.*;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class LoginController {
 
@@ -36,58 +35,64 @@ public class LoginController {
     public Text passwordTitle;
     public Text loginLocationText;
     public Button logInButton;
-    private ZoneId location;
-    private String locationFormatted;
     private ResourceBundle languageBundle;
     private final Alert loginScreenAlert = new Alert(Alert.AlertType.WARNING);
     private AppointmentController appointmentController;
     private CustomerController customerController;
     private ScheduleController scheduleController;
-    private HashMap<String, String> loginMap = new HashMap<>();
+    private final HashMap<String, String> loginMap = new HashMap<>();
     ZonedDateTime currentDT = ZonedDateTime.now();
     DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm MM-dd-yyyy");
     ObservableList<Appointment> appList = FXCollections.observableArrayList();
+    Logger logInFile = Logger.getLogger("login_activity.txt");
 
     public Text setLoginLocationText() {
-        location = ZoneId.systemDefault();
+        ZoneId location = ZoneId.systemDefault();
         loginLocationText.setText(String.valueOf(location));
         return loginLocationText;
     }
 
     public void initialize() throws SQLException {
-        //getUserLocation();
         Database.popLogInHash(loginMap);
         languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
         setLoginLocationText();
         Database.initializeAppointmentList(appList);
+        try {
+            FileHandler handler = new FileHandler("login_activity.txt",true);
+            SimpleFormatter formatter = new SimpleFormatter();
+            handler.setFormatter(formatter);
+            logInFile.addHandler(handler);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
     }
 
     public void logIn(ActionEvent actionEvent) throws IOException {
         String userId = usernameBox.getText();
         String pass = passwordBox.getText();
         if(!loginMap.containsKey(userId)) {
-            // error message for id not existing
+            logLoginFailure();
             loginScreenAlert.setTitle(languageBundle.getString("invalidLoginErrorTitle"));
             loginScreenAlert.setHeaderText(languageBundle.getString("invalidLoginErrorHeader"));
             loginScreenAlert.setContentText(languageBundle.getString("invalidLoginErrorContent"));
             loginScreenAlert.showAndWait();
-            return;
         }
         else if (!loginMap.get(userId).equals(pass)) {
-            //incorrect password error
+            logLoginFailure();
             loginScreenAlert.setTitle(languageBundle.getString("invalidPassErrorTitle"));
             loginScreenAlert.setHeaderText(languageBundle.getString("invalidPassErrorHeader"));
             loginScreenAlert.setContentText(languageBundle.getString("invalidPassErrorContent"));
             loginScreenAlert.showAndWait();
         }
         else {
+            logLoginSuccess();
             Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-            for (int i = 0; i < appList.size(); i++) {
+            for (Appointment appointment : appList) {
                 ZonedDateTime fifteenMin = currentDT.plusMinutes(15);
-                if (appList.get(i).getEnd().isAfter(currentDT) && appList.get(i).getStart().isBefore(fifteenMin)) {
-                    String fifteenAppContent = languageBundle.getString("appointmentIDWords") + ": " + String.valueOf(appList.get(i).getAppointmentId()) +
-                            languageBundle.getString("start") + ": " + appList.get(i).getStart().format(format) +
-                            languageBundle.getString("end") + ": " + appList.get(i).getEnd().format(format);
+                if (appointment.getEnd().isAfter(currentDT) && appointment.getStart().isBefore(fifteenMin)) {
+                    String fifteenAppContent = languageBundle.getString("appointmentIDWords") + ": " + String.valueOf(appointment.getAppointmentId()) +
+                            languageBundle.getString("start") + ": " + appointment.getStart().format(format) +
+                            languageBundle.getString("end") + ": " + appointment.getEnd().format(format);
                     confirmationAlert.setHeaderText(languageBundle.getString("fifteenAppHeader"));
                     confirmationAlert.setContentText(fifteenAppContent);
                     Optional<ButtonType> confirmation = confirmationAlert.showAndWait();
@@ -120,6 +125,16 @@ public class LoginController {
         this.appointmentController = appointmentController;
     }
 
+    private void logLoginFailure() {
+        String logString = languageBundle.getString("loginFailure") + ": " + currentDT.format(format);
+        logInFile.log(Level.INFO, logString);
+    }
+
+    private void logLoginSuccess() {
+        String logString = languageBundle.getString("loginSuccess") + ": " + currentDT.format(format);
+        logInFile.log(Level.INFO, logString);
+    }
+
     public void setCustomerController(CustomerController customerController) {
         this.customerController = customerController;
     }
@@ -133,28 +148,28 @@ public class LoginController {
             String userId = usernameBox.getText();
             String pass = passwordBox.getText();
             if(!loginMap.containsKey(userId)) {
-                // error message for id not existing
+                logLoginFailure();
                 loginScreenAlert.setTitle(languageBundle.getString("invalidLoginErrorTitle"));
                 loginScreenAlert.setHeaderText(languageBundle.getString("invalidLoginErrorHeader"));
                 loginScreenAlert.setContentText(languageBundle.getString("invalidLoginErrorContent"));
                 loginScreenAlert.showAndWait();
-                return;
             }
             else if (!loginMap.get(userId).equals(pass)) {
-                //incorrect password error
+                logLoginFailure();
                 loginScreenAlert.setTitle(languageBundle.getString("invalidPassErrorTitle"));
                 loginScreenAlert.setHeaderText(languageBundle.getString("invalidPassErrorHeader"));
                 loginScreenAlert.setContentText(languageBundle.getString("invalidPassErrorContent"));
                 loginScreenAlert.showAndWait();
             }
             else {
+                logLoginSuccess();
                 Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-                for (int i = 0; i < appList.size(); i++) {
+                for (Appointment appointment : appList) {
                     ZonedDateTime fifteenMin = currentDT.plusMinutes(15);
-                    if (appList.get(i).getEnd().isAfter(currentDT) && appList.get(i).getStart().isBefore(fifteenMin)) {
-                        String fifteenAppContent = languageBundle.getString("appointmentIDWords") + ": " + String.valueOf(appList.get(i).getAppointmentId()) +
-                                languageBundle.getString("start") + ": " + appList.get(i).getStart().format(format) +
-                                languageBundle.getString("end") + ": " + appList.get(i).getEnd().format(format);
+                    if (appointment.getEnd().isAfter(currentDT) && appointment.getStart().isBefore(fifteenMin)) {
+                        String fifteenAppContent = languageBundle.getString("appointmentIDWords") + ": " + String.valueOf(appointment.getAppointmentId()) +
+                                languageBundle.getString("start") + ": " + appointment.getStart().format(format) +
+                                languageBundle.getString("end") + ": " + appointment.getEnd().format(format);
                         confirmationAlert.setHeaderText(languageBundle.getString("fifteenAppHeader"));
                         confirmationAlert.setContentText(fifteenAppContent);
                         Optional<ButtonType> confirmation = confirmationAlert.showAndWait();

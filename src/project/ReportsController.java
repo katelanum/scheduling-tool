@@ -4,15 +4,15 @@ import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -23,7 +23,6 @@ public class ReportsController {
     public Stage scheduleStage;
     public Scene scheduleScene;
     public AnchorPane customerPane;
-    public ToggleGroup appointmentRadioGroup;
     public RadioButton contactViewRadio;
     public Text reportsTitle;
     public Button reportsClose;
@@ -43,18 +42,17 @@ public class ReportsController {
     public TableColumn<Appointment, Integer> appointmentCustomerIdColumn;
     public ComboBox<String> locationCombo;
     public ToggleGroup reportRadioGroup;
-    private ObservableList<Contacts> contactList = FXCollections.observableArrayList();
-    private ObservableList<Appointment> listByCon = FXCollections.observableArrayList();
-    private ObservableList<Appointment> listByType = FXCollections.observableArrayList();
-    private ObservableList<Appointment> listByMonth = FXCollections.observableArrayList();
-    private ObservableList<Appointment> listByLoc = FXCollections.observableArrayList();
-    private ObservableList<String> monthList = FXCollections.observableArrayList();
-    private ObservableList<String> typeList = FXCollections.observableArrayList();
-    private ObservableList<String> locationList = FXCollections.observableArrayList();
-    private ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
-    private ObservableList<Appointment> allApp = FXCollections.observableArrayList();
-    LocalDateTime currentUserDT = LocalDateTime.now();
-    DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm MM-dd-yyyy");
+    public Button typeSummaryButton;
+    private final ObservableList<Contacts> contactList = FXCollections.observableArrayList();
+    private final ObservableList<Appointment> listByCon = FXCollections.observableArrayList();
+    private final ObservableList<Appointment> listByType = FXCollections.observableArrayList();
+    private final ObservableList<Appointment> listByLoc = FXCollections.observableArrayList();
+    private final ObservableList<String> monthList = FXCollections.observableArrayList();
+    private final ObservableList<String> typeList = FXCollections.observableArrayList();
+    private final ObservableList<String> locationList = FXCollections.observableArrayList();
+    private final ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
+    private final ObservableList<Appointment> allApp = FXCollections.observableArrayList();
+    private final DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm MM-dd-yyyy");
 
     public void initialize() throws SQLException {
         initializeContact();
@@ -105,9 +103,9 @@ public class ReportsController {
     private void initializeType() {
         ObservableList<Appointment> appointments =  FXCollections.observableArrayList();
         Database.initializeAppointmentList(appointments);
-        for (int i = 0; i < appointments.size(); i++) {
-            if (!typeList.contains(appointments.get(i).getType())) {
-                typeList.add(appointments.get(i).getType());
+        for (Appointment appointment : appointments) {
+            if (!typeList.contains(appointment.getType())) {
+                typeList.add(appointment.getType());
             }
         }
         typeCombo.setItems(typeList);
@@ -116,9 +114,9 @@ public class ReportsController {
     private void initializeLocation() {
         ObservableList<Appointment> appointments =  FXCollections.observableArrayList();
         Database.initializeAppointmentList(appointments);
-        for (int i = 0; i < appointments.size(); i++) {
-            if (!locationList.contains(appointments.get(i).getLocation())) {
-                locationList.add(appointments.get(i).getLocation());
+        for (Appointment appointment : appointments) {
+            if (!locationList.contains(appointment.getLocation())) {
+                locationList.add(appointment.getLocation());
             }
         }
         locationCombo.setItems(locationList);
@@ -126,26 +124,26 @@ public class ReportsController {
 
     public void typeViewClick(ActionEvent actionEvent) {
         listByType.clear();
-        if (!typeCombo.getValue().equals(null) && !monthCombo.getValue().equals(null)) {
+        if (typeCombo.getValue() != null && monthCombo.getValue() != null) {
             String type = typeCombo.getValue();
             String month = monthCombo.getValue();
-            for (int i = 0; i < allApp.size(); i++) {
-                if (allApp.get(i).getType().equalsIgnoreCase(type)) {
-                    listByType.add(allApp.get(i));
+            for (Appointment appointment : allApp) {
+                if (appointment.getType().equalsIgnoreCase(type) &&
+                        appointment.getStart().getMonth().name().equalsIgnoreCase(month)) {
+                    listByType.add(appointment);
                 }
             }
             scheduleTableView.setItems(listByType);
         }
-
     }
 
     public void contactViewClick(ActionEvent actionEvent) {
         listByCon.clear();
-        if (!contactCombo.getValue().equals(null)) {
-            Integer contactID = contactCombo.getValue().getContactId();
-            for (int i = 0; i < allApp.size(); i++) {
-                if (allApp.get(i).getContactId() == contactID) {
-                    listByCon.add(allApp.get(i));
+        if (contactCombo.getValue() != null) {
+            int contactID = contactCombo.getValue().getContactId();
+            for (Appointment appointment : allApp) {
+                if (appointment.getContactId() == contactID) {
+                    listByCon.add(appointment);
                 }
             }
             scheduleTableView.setItems(listByCon);
@@ -161,9 +159,9 @@ public class ReportsController {
         listByLoc.clear();
         if (!locationCombo.getValue().isEmpty()) {
             String location = locationCombo.getValue();
-            for (int i = 0; i < allApp.size(); i++) {
-                if (allApp.get(i).getLocation().equalsIgnoreCase(location)) {
-                    listByLoc.add(allApp.get(i));
+            for (Appointment appointment : allApp) {
+                if (appointment.getLocation().equalsIgnoreCase(location)) {
+                    listByLoc.add(appointment);
                 }
             }
             scheduleTableView.setItems(listByLoc);
@@ -172,12 +170,13 @@ public class ReportsController {
 
     public void typeSelection(ActionEvent actionEvent) {
         listByType.clear();
-        if (typeViewRadio.isSelected() && !monthCombo.getValue().equals(null)) {
+        if (typeViewRadio.isSelected() && monthCombo.getValue() != null) {
             String type = typeCombo.getValue();
             String month = monthCombo.getValue();
-            for (int i = 0; i < allApp.size(); i++) {
-                if (allApp.get(i).getType().equalsIgnoreCase(type)) {
-                    listByType.add(allApp.get(i));
+            for (Appointment appointment : allApp) {
+                if (appointment.getType().equalsIgnoreCase(type) &&
+                        appointment.getStart().getMonth().name().equalsIgnoreCase(month)) {
+                    listByType.add(appointment);
                 }
             }
             scheduleTableView.setItems(listByType);
@@ -187,10 +186,10 @@ public class ReportsController {
     public void contactSelection(ActionEvent actionEvent) {
         listByCon.clear();
         if (contactViewRadio.isSelected()) {
-            Integer contactID = contactCombo.getValue().getContactId();
-            for (int i = 0; i < allApp.size(); i++) {
-                if (allApp.get(i).getContactId() == contactID) {
-                    listByCon.add(allApp.get(i));
+            int contactID = contactCombo.getValue().getContactId();
+            for (Appointment appointment : allApp) {
+                if (appointment.getContactId() == contactID) {
+                    listByCon.add(appointment);
                 }
             }
             scheduleTableView.setItems(listByCon);
@@ -199,12 +198,13 @@ public class ReportsController {
 
     public void monthSelection(ActionEvent actionEvent) {
         listByType.clear();
-        if (typeViewRadio.isSelected() && !typeCombo.getValue().equals(null)) {
+        if (typeViewRadio.isSelected() && typeCombo.getValue() != null) {
             String type = typeCombo.getValue();
             String month = monthCombo.getValue();
-            for (int i = 0; i < allApp.size(); i++) {
-                if (allApp.get(i).getType().equalsIgnoreCase(type)) {
-                    listByType.add(allApp.get(i));
+            for (Appointment appointment : allApp) {
+                if (appointment.getType().equalsIgnoreCase(type) &&
+                        appointment.getStart().getMonth().name().equalsIgnoreCase(month)) {
+                    listByType.add(appointment);
                 }
             }
             scheduleTableView.setItems(listByType);
@@ -215,12 +215,19 @@ public class ReportsController {
         listByLoc.clear();
         if (locationRadio.isSelected()) {
             String location = locationCombo.getValue();
-            for (int i = 0; i < allApp.size(); i++) {
-                if (allApp.get(i).getLocation().equalsIgnoreCase(location)) {
-                    listByLoc.add(allApp.get(i));
+            for (Appointment appointment : allApp) {
+                if (appointment.getLocation().equalsIgnoreCase(location)) {
+                    listByLoc.add(appointment);
                 }
             }
             scheduleTableView.setItems(listByLoc);
         }
+    }
+
+    public void typeSummaryClick(ActionEvent actionEvent) throws IOException {
+        ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("typeSummaryScreen.fxml"), languageBundle);
+        Stage stage = loader.load();
+        stage.show();
     }
 }

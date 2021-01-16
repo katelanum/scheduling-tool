@@ -1,15 +1,10 @@
 package project;
 
-import com.mysql.cj.protocol.Resultset;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
-import javax.xml.transform.Result;
 import java.sql.*;
 import java.time.LocalTime;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Database {
     //connection string
@@ -20,7 +15,6 @@ public class Database {
     // password: 53688043361
 
     private static Connection connection = null;
-
 
     public static void initializeDB() throws SQLException {
         final String JDBCDriver = "com.mysql.jdbc.Driver";
@@ -34,7 +28,6 @@ public class Database {
             dbEx.printStackTrace();
         }
         Statement query = connection.createStatement();
-        //query.execute("CREATE DATABASE SchedulingDB");
         query.execute("CREATE TABLE IF NOT EXISTS Contacts (" +
                 "Contact_ID INT(10) NOT NULL AUTO_INCREMENT, " +
                 "Contact_Name VARCHAR(50), " +
@@ -206,20 +199,6 @@ public class Database {
         }
     }
 
-    public static void test() {
-        try {
-            Statement query = connection.createStatement();
-
-            ResultSet appointments = query.executeQuery("SELECT * FROM Contacts");
-            while (appointments.next()) {
-                System.out.println(appointments.getString("Contact_ID"));
-            }
-        } catch (Exception e) {
-            System.err.println(e);
-        }
-
-    }
-
     public static void popContactsList(ObservableList<Contacts> contactList) throws SQLException {
         ResultSet contactRes = null;
         Statement query = connection.createStatement();
@@ -311,7 +290,6 @@ public class Database {
     }
 
     public static void addCustomer(Customer custToAdd) throws SQLException {
-        // need to add first-division
         String sqlQuery = "INSERT INTO Customers (Customer_Name, Address, Postal_Code, Phone, Division_ID) " +
                 "VALUES ('" +
                 custToAdd.getCustomerName() + "' , '" +
@@ -342,7 +320,6 @@ public class Database {
         Statement query = connection.createStatement();
         query.execute(sqlQuery);
     }
-
 
     public static ObservableList<Appointment> getCustomerApps(int customerId) throws SQLException {
         ObservableList<Appointment> appList = FXCollections.observableArrayList();

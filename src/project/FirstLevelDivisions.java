@@ -33,37 +33,6 @@ public class FirstLevelDivisions {
         this.divisionName = divisionName;
     }
 
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
-
-    public LocalDateTime getLastChanged() {
-        return lastChanged;
-    }
-
-    public void setLastChanged(LocalDateTime lastChanged) {
-        this.lastChanged = lastChanged;
-    }
-
-    public String getModifiedBy() {
-        return modifiedBy;
-    }
-
-    public void setModifiedBy(String modifiedBy) {
-        this.modifiedBy = modifiedBy;
-    }
 
     public int getCountryId() {
         return countryId;

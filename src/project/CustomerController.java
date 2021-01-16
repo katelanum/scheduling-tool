@@ -3,18 +3,14 @@ package project;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.sql.*;
-import java.time.DayOfWeek;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -52,16 +48,15 @@ public class CustomerController {
     public TableColumn<Customer, String> customerCountryColumn;
     public TableColumn<Customer, String> customerPhoneNumber;
     public TableColumn<Customer, String> customerStateColumn;
-    String addDeleteModStatus = "add";
+    private String addDeleteModStatus = "add";
     private final Alert customerScreenAlert = new Alert(Alert.AlertType.WARNING);
-    private static ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
+    private static final ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
     private int custId;
     private Customer transferCust = new Customer();
-    private static Customer tempCust = new Customer();
-    //private final Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-    private ObservableList<Customer> customerList = FXCollections.observableArrayList();
-    private ObservableList<FirstLevelDivisions> fldList = FXCollections.observableArrayList();
-    private ObservableList<Countries> countryList = FXCollections.observableArrayList();
+    private static final Customer tempCust = new Customer();
+    private final ObservableList<Customer> customerList = FXCollections.observableArrayList();
+    private final ObservableList<FirstLevelDivisions> fldList = FXCollections.observableArrayList();
+    private final ObservableList<Countries> countryList = FXCollections.observableArrayList();
     private AppointmentController appointmentController;
     private LoginController loginController;
     private ScheduleController scheduleController;
@@ -90,26 +85,12 @@ public class CustomerController {
         countryList.clear();
         Database.getCountry(countryList);
         countryComboBox.setItems(countryList);
-//        for (int i =0 ; i < countryList.size(); i++) {
-//            Countries tempCountry = new Countries();
-//            tempCountry.setCountryName(countryList.get(i).getCountryName());
-//            tempCountry.setCountryID(countryList.get(i).getCountryID());
-//            countryComboBox.getItems().add(tempCountry);
-//        }
     }
 
     public void initializeStateCombo() throws SQLException {
         fldList.clear();
         Database.getFLD(fldList,countryId);
         stateComboBox.setItems(fldList);
-//        for (int i = 0; i < fldList.size(); i++) {
-//            FirstLevelDivisions tempFLD = new FirstLevelDivisions();
-//            tempFLD.setCountryName(fldList.get(i).getCountryName());
-//            tempFLD.setCountryId(fldList.get(i).getCountryId());
-//            tempFLD.setDivisionId(fldList.get(i).getDivisionId());
-//            tempFLD.setDivisionName(fldList.get(i).getDivisionName());
-//            stateComboBox.getItems().add(tempFLD);
-//        }
     }
 
     private void autoPopulate() throws SQLException {
@@ -188,18 +169,6 @@ public class CustomerController {
             tempCust.setCustomerCountry(transferCust.getCustomerCountry());
             autoPopulate();
         }
-//        Customer selectedCust = customerTableView.getSelectionModel().getSelectedItem();
-//        custId = selectedCust.getCustomerId();
-//        transferCust = Database.getCustomer(custId);
-//        tempCust.setDivisionId(transferCust.getDivisionId());
-//        tempCust.setCustomerPhone(transferCust.getCustomerPhone());
-//        tempCust.setCustomerPostal(transferCust.getCustomerPostal());
-//        tempCust.setCustomerStreetAddress(transferCust.getCustomerStreetAddress());
-//        tempCust.setCustomerName(transferCust.getCustomerName());
-//        tempCust.setCustomerId(transferCust.getCustomerId());
-//        tempCust.setCustomerStateProv(transferCust.getCustomerStateProv());
-//
-//        autoPopulate();
     }
 
     public void countryComboSelect(ActionEvent actionEvent) throws SQLException {
@@ -260,7 +229,6 @@ public class CustomerController {
             customerScreenAlert.setContentText(languageBundle.getString("unexpErrorContent"));
             customerScreenAlert.showAndWait();
         }
-        //tempCust = null;
         customerList.clear();
         Database.initializeCustomerList(customerList);
     }

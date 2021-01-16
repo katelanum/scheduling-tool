@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Scene?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.stage.Stage?>
+
+<Stage fx:id="typeSummStage" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.typeSummaryController">
+    <scene>
+        <Scene fx:id="typeSummScene" fill="#00004f00">
+            <AnchorPane fx:id="typeSummPane" prefHeight="447.0" prefWidth="386.0"
+                        style="-fx-background-color: white; -fx-border-color: #a74cae; -fx-border-radius: 20; -fx-background-radius: 25;">
+                <Text id="typeSummTitle" fx:id="typeSummTitle" accessibleText="Log In" layoutX="137.0" layoutY="51.0"
+                      strokeType="OUTSIDE" strokeWidth="0.0" text="%typeSummary" textAlignment="CENTER"
+                      wrappingWidth="258.95947265625">
+                    <font>
+                        <Font size="30.0"/>
+                    </font>
+                </Text>
+                <Button fx:id="closeButton" accessibleText="Log In" layoutX="396.0" layoutY="376.0" minWidth="100.0"
+                        mnemonicParsing="false" onAction="#closeClick" prefHeight="41.0" prefWidth="102.0"
+                        style="-fx-background-color: #1a237e; -fx-background-radius: 5; -fx-border-color: #534bae; -fx-border-radius: 5;"
+                        text="%close" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="37.0"
+                        AnchorPane.leftAnchor="396.0" AnchorPane.rightAnchor="37.0" AnchorPane.topAnchor="376.0"/>
+                <TableView fx:id="typeTableView" layoutX="67.0" layoutY="85.0" prefHeight="257.0" prefWidth="400.0">
+                    <columns>
+                        <TableColumn fx:id="monthColumn" prefWidth="159.0" text="%month"/>
+                        <TableColumn fx:id="typeColumn" prefWidth="158.0" text="%type"/>
+                        <TableColumn fx:id="countColumn" prefWidth="82.0" text="%count"/>
+                    </columns>
+                </TableView>
+            </AnchorPane>
+        </Scene>
+    </scene>
+</Stage>
