@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.stage.*?>
+
+<Stage fx:id="scheduleStage" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.ReportsController">
+    <scene>
+        <Scene fx:id="scheduleScene" fill="#00004f00" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+            <AnchorPane fx:id="customerPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="758.0" prefWidth="1387.0" style="-fx-background-color: white; -fx-border-color: #a74cae#a74cae; -fx-border-radius: 20; -fx-background-radius: 25;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+                <children>
+                    <RadioButton fx:id="typeViewRadio" layoutX="420.0" layoutY="90.0" mnemonicParsing="false" onAction="#typeViewClick" text="%appbyType">
+                        <font>
+                            <Font size="18.0" />
+                        </font>
+                  <toggleGroup>
+                     <ToggleGroup fx:id="reportRadioGroup" />
+                  </toggleGroup>
+                    </RadioButton>
+                    <RadioButton fx:id="contactViewRadio" layoutX="972.0" layoutY="89.0" mnemonicParsing="false" onAction="#contactViewClick" text="%appByContact" toggleGroup="$reportRadioGroup">
+                        <font>
+                            <Font size="18.0" />
+                        </font>
+                    </RadioButton>
+                    <Text fx:id="reportsTitle" accessibleRoleDescription="appointments" layoutX="639.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%reports" textAlignment="CENTER">
+                        <font>
+                            <Font size="30.0" />
+                        </font>
+                    </Text>
+                    <Button fx:id="reportsClose" layoutX="1237.0" layoutY="691.0" mnemonicParsing="false" onAction="#reportsCloseClick" prefHeight="27.0" prefWidth="81.0" style="-fx-background-color: #1a237e; -fx-background-radius: 5; -fx-border-color: #534bae; -fx-border-radius: 5; -fx-text-fill: white;" text="%close" textFill="#ffffff00">
+                        <font>
+                            <Font size="18.0" />
+                        </font>
+                    </Button>
+                    <TableView fx:id="scheduleTableView" layoutX="24.0" layoutY="145.0" prefHeight="527.0" prefWidth="1341.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;">
+                        <columns>
+                            <TableColumn fx:id="appointmentIdColumn" prefWidth="125.0" text="%appointmentIDWords" />
+                            <TableColumn fx:id="appointmentTitleColumn" prefWidth="125.0" text="%title" />
+                            <TableColumn fx:id="appointmentDescriptionColumn" prefWidth="214.0" text="%description" />
+                            <TableColumn fx:id="appointmentLocationColumn" prefWidth="154.0" text="%location" />
+                            <TableColumn fx:id="appointmentContactColumn" prefWidth="146.0" text="%contactWord" />
+                            <TableColumn fx:id="appointmentTypeColumn" prefWidth="136.0" text="%type" />
+                            <TableColumn fx:id="appointmentStartColumn" minWidth="0.0" prefWidth="155.0" text="%start" />
+                            <TableColumn fx:id="appointmentEndColumn" prefWidth="155.0" text="%end" />
+                            <TableColumn fx:id="appointmentCustomerIdColumn" prefWidth="130.0" text="%customerWords" />
+                        </columns>
+                    </TableView>
+               <ComboBox fx:id="typeCombo" layoutX="622.0" layoutY="87.0" onAction="#typeSelection" prefWidth="150.0" />
+               <ComboBox fx:id="contactCombo" layoutX="1199.0" layoutY="87.0" onAction="#contactSelection" prefWidth="150.0" />
+               <ComboBox fx:id="monthCombo" layoutX="788.0" layoutY="88.0" onAction="#monthSelection" prefWidth="150.0" />
+               <RadioButton fx:id="locationRadio" layoutX="46.0" layoutY="89.0" mnemonicParsing="false" onAction="#locationViewClick" text="%appByLocation" toggleGroup="$reportRadioGroup">
+                  <font>
+                     <Font size="18.0" />
+                  </font>
+               </RadioButton>
+               <ComboBox fx:id="locationCombo" layoutX="252.0" layoutY="88.0" onAction="#locationSelection" prefWidth="150.0" />
+                </children>
+            </AnchorPane>
+        </Scene>
+    </scene>
+</Stage>

@@ -13,7 +13,7 @@
             <children>
                <Button fx:id="logInButton" accessibleText="Log In" layoutX="267.0" layoutY="236.0" minWidth="100.0" mnemonicParsing="false" onAction="#logIn" style="-fx-background-color: #1a237e; -fx-background-radius: 5; -fx-border-color: #534bae; -fx-border-radius: 5;" text="%logIn" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="266.0" AnchorPane.rightAnchor="31.0" AnchorPane.topAnchor="236.0" />
                <TextField fx:id="usernameBox" layoutX="177.0" layoutY="102.0" promptText="%username" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
-               <TextField fx:id="passwordBox" layoutX="177.0" layoutY="171.0" promptText="%password" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
+               <TextField fx:id="passwordBox" layoutX="177.0" layoutY="171.0" onKeyReleased="#keyRelease" promptText="%password" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
                <Text id="LogInTitle" fx:id="logInTitle" accessibleText="Log In" layoutX="136.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%logIn" textAlignment="CENTER" wrappingWidth="127.95947265625">
                   <font>
                      <Font size="30.0" />

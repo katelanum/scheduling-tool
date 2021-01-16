@@ -1,5 +1,6 @@
 package project;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class FirstLevelDivisions {
@@ -7,9 +8,14 @@ public class FirstLevelDivisions {
     private String divisionName;
     private Date createDate;
     private String creator;
-    private Date lastChanged;
+    private LocalDateTime lastChanged;
     private String modifiedBy;
     private int countryId;
+    private String countryName;
+
+    public String toString() {
+        return divisionName;
+    }
 
     public int getDivisionId() {
         return divisionId;
@@ -43,11 +49,11 @@ public class FirstLevelDivisions {
         this.creator = creator;
     }
 
-    public Date getLastChanged() {
+    public LocalDateTime getLastChanged() {
         return lastChanged;
     }
 
-    public void setLastChanged(Date lastChanged) {
+    public void setLastChanged(LocalDateTime lastChanged) {
         this.lastChanged = lastChanged;
     }
 
@@ -65,5 +71,13 @@ public class FirstLevelDivisions {
 
     public void setCountryId(int countryId) {
         this.countryId = countryId;
+    }
+
+    public String getCountryName() {
+        return countryName;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
     }
 }

@@ -1,6 +1,7 @@
 package project;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 
 // add, update, and delete customer records
 // fields are read in from customer database, appointment objects have foreign key to the customerId
@@ -18,7 +19,7 @@ public class Customer {
     private String customerPhone;
     private Date creationDate;
     private String creator;
-    private Date lastChange;
+    private LocalDateTime lastChange;
     private String whoModified;
     private int divisionId;
 
@@ -94,11 +95,11 @@ public class Customer {
         this.creator = creator;
     }
 
-    public Date getLastChange() {
+    public LocalDateTime getLastChange() {
         return lastChange;
     }
 
-    public void setLastChange(Date lastChange) {
+    public void setLastChange(LocalDateTime lastChange) {
         this.lastChange = lastChange;
     }
 

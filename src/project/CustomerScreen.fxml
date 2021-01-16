@@ -1,34 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Scene?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-<?import javafx.stage.Stage?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.stage.*?>
 
-<Stage fx:id="customerStage" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.CustomerController">
+<Stage fx:id="customerStage" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.CustomerController">
     <scene>
         <Scene fx:id="CustomerScene" fill="#00004f00" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
             <AnchorPane fx:id="customerPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="786.0" prefWidth="1387.0" style="-fx-background-color: white; -fx-border-color: #a74cae#a74cae; -fx-border-radius: 20; -fx-background-radius: 25;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
                 <children>
-               <TableView fx:id="customerTableView" layoutX="23.0" layoutY="116.0" prefHeight="467.0" prefWidth="1341.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;">
+               <TableView fx:id="customerTableView" editable="true" layoutX="23.0" layoutY="116.0" prefHeight="467.0" prefWidth="1341.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;">
                   <columns>
-                     <TableColumn prefWidth="125.0" text="%appointmentIDWords" />
-                     <TableColumn prefWidth="125.0" text="%title" />
-                     <TableColumn prefWidth="335.0" text="%description" />
-                     <TableColumn prefWidth="125.0" text="%location" />
-                     <TableColumn prefWidth="125.0" text="%contactWord" />
-                     <TableColumn prefWidth="150.0" text="%type" />
-                     <TableColumn minWidth="0.0" prefWidth="115.0" text="%start" />
-                     <TableColumn prefWidth="115.0" text="%end" />
-                     <TableColumn prefWidth="125.0" text="%customerIDWords" />
+                     <TableColumn fx:id="customerIDColumn" prefWidth="135.0" text="%customerIDWords" />
+                     <TableColumn fx:id="customerNameColumn" prefWidth="230.0" text="%name" />
+                     <TableColumn fx:id="customerAddressColumn" prefWidth="325.0" text="%address" />
+                     <TableColumn fx:id="customerZipColumn" prefWidth="158.0" text="%zip" />
+                     <TableColumn fx:id="customerCountryColumn" prefWidth="181.0" text="%country" />
+                     <TableColumn fx:id="customerStateColumn" prefWidth="182.0" text="%state" />
+                     <TableColumn fx:id="customerPhoneNumber" minWidth="0.0" prefWidth="127.0" text="%phoneNumber" />
                   </columns>
                </TableView>
                     <RadioButton fx:id="customerAddRadio" layoutX="275.0" layoutY="79.0" mnemonicParsing="false" onAction="#customerAddClick" text="%addWord">
@@ -78,7 +69,7 @@
                         </font>
                     </Text>
                     <TextField fx:id="phoneTextBox" layoutX="1131.0" layoutY="665.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
-                    <TextField fx:id="customerIdTextBox" layoutX="245.0" layoutY="604.0" prefHeight="27.0" prefWidth="141.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
+                    <TextField fx:id="customerIdTextBox" editable="false" layoutX="245.0" layoutY="604.0" prefHeight="27.0" prefWidth="141.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;" />
                     <Text fx:id="customerIdText" layoutX="70.0" layoutY="625.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%customerIDWords">
                         <font>
                             <Font size="18.0" />

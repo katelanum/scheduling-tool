@@ -1,5 +1,6 @@
 package project;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Countries {
@@ -7,8 +8,12 @@ public class Countries {
     private String countryName;
     private Date creationDate;
     private String whoCreated;
-    private Date lastUpdate;
+    private LocalDateTime lastUpdate;
     private String whoLastChanged;
+
+    public String toString() {
+        return countryName;
+    }
 
     public int getCountryID() {
         return countryID;
@@ -42,11 +47,11 @@ public class Countries {
         this.whoCreated = whoCreated;
     }
 
-    public Date getLastUpdate() {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Date lastUpdate) {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 

@@ -1,8 +1,9 @@
 package project;
 
+import java.sql.Timestamp;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.time.*;
-import java.sql.*;
 
 // add, update, and delete appointments
 // read in the fields from the database
@@ -14,16 +15,35 @@ public class Appointment {
     private String description;
     private String location;
     private String type;
-    private Date start;
-    private Date end;
+    private ZonedDateTime start;
+    private ZonedDateTime end;
     private Date creationDate;
     private String creator;
     private Date modifyTime;
     private String lastModifier;
     //customerId is a foreign key to the customer record
     private int customerId;
+    private String customerName;
     private int userId;
     private int contactId;
+    private String contactName;
+    DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm MM-dd-yyyy");
+
+    public ZonedDateTime getStart() {
+        return start;
+    }
+
+    public void setEnd(ZonedDateTime end) {
+        this.end = end;
+    }
+
+    public void setStart(ZonedDateTime start) {
+        this.start = start;
+    }
+
+    public ZonedDateTime getEnd() {
+        return end;
+    }
 
     public int getAppointmentId() {
         return appointmentId;
@@ -63,22 +83,6 @@ public class Appointment {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public Date getStart() {
-        return start;
-    }
-
-    public void setStart(Date start) {
-        this.start = start;
-    }
-
-    public Date getEnd() {
-        return end;
-    }
-
-    public void setEnd(Date end) {
-        this.end = end;
     }
 
     public Date getCreationDate() {
@@ -136,4 +140,40 @@ public class Appointment {
     public void setContactId(int contactId) {
         this.contactId = contactId;
     }
+
+    public String getContactName() {
+        return contactName;
+    }
+
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public void setStart(Timestamp startTime) {
+        LocalDateTime localStart = startTime.toLocalDateTime();
+        start = ZonedDateTime.of(localStart,ZoneId.of("UTC"));
+
+    }
+
+    public void setEnd(Timestamp endTime) {
+        LocalDateTime localEnd= endTime.toLocalDateTime();
+        end = ZonedDateTime.of(localEnd,ZoneId.of("UTC"));
+    }
+
+    public String getEndForm() {
+        return end.format(format);
+    }
+
+    public String getStartForm() {
+        return start.format(format);
+    }
 }
+
