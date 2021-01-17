@@ -14,10 +14,7 @@ import javafx.stage.Stage;
 import java.sql.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.ResourceBundle;
-import java.util.TimeZone;
+import java.util.*;
 
 public class AppointmentController {
     public Stage appointmentStage;
@@ -61,6 +58,11 @@ public class AppointmentController {
     public ChoiceBox<Integer> endMinCombo;
     public ChoiceBox<Integer> startHourCombo;
     public ChoiceBox<Integer> startMinCombo;
+    public TextField descriptionTextBox;
+    public TextField userIDTextBox;
+    public Text userIDText;
+    public TextField typeTextBox;
+    public Text typeText;
     String addDeleteModStatus = "add";
     private ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
     private boolean isValidTime = false;
@@ -74,22 +76,25 @@ public class AppointmentController {
     private ScheduleController scheduleController;
     private CustomerController customerController;
     private ObservableList<Appointment> allApp = FXCollections.observableArrayList();
-    private LocalTime openGen = LocalTime.of(22,00);
-    private LocalTime closeGen = LocalTime.of(3,00);
-    private LocalDate dateGen = LocalDate.of(2020,1,1);
-    private LocalDateTime oGen = LocalDateTime.of(dateGen, openGen);
-    private LocalDateTime cGen = LocalDateTime.of(dateGen, closeGen);
-    private ZonedDateTime closeUTC = ZonedDateTime.of(cGen, ZoneOffset.UTC);
-    private ZonedDateTime openUTC = ZonedDateTime.of(oGen, ZoneOffset.UTC);
-    private ZonedDateTime closeLocal = closeUTC.withZoneSameInstant(ZoneOffset.systemDefault());
-    private ZonedDateTime openLocal = openUTC.withZoneSameInstant(ZoneOffset.systemDefault());
+//    private LocalTime openGen = LocalTime.of(13,00);
+//    private LocalTime closeGen = LocalTime.of(3,00);
+//    private LocalDate oDateGen = LocalDate.of(2020,1,1);
+//    private LocalDate dDateGen = LocalDate.of(2020,1,2);
+//    private LocalDateTime oGen = LocalDateTime.of(oDateGen, openGen);
+//    private LocalDateTime cGen = LocalDateTime.of(dDateGen, closeGen);
+//    private ZonedDateTime closeUTC = ZonedDateTime.of(cGen, ZoneOffset.UTC);
+//    private ZonedDateTime openUTC = ZonedDateTime.of(oGen, ZoneOffset.UTC);
+//    private ZonedDateTime closeLocal = closeUTC.withZoneSameInstant(ZoneOffset.systemDefault());
+//    private ZonedDateTime openLocal = openUTC.withZoneSameInstant(ZoneOffset.systemDefault());
     private ObservableList<Integer> minutes = FXCollections.observableArrayList();
     private ObservableList<Integer> hours = FXCollections.observableArrayList();
     DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm MM-dd-yyyy");
+    private ObservableList<Customer> customers = FXCollections.observableArrayList();
 
     public void initialize() throws SQLException {
         initializeContactBox();
         Database.initializeAppointmentList(allApp);
+        Database.initializeCustomerList(customers);
         appointmentTableView.setEditable(true);
         appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
         appointmentTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -122,7 +127,7 @@ public class AppointmentController {
     }
 
     private void initializeMinBoxes() {
-        for (int i = 00; i < 60; i += 15) {
+        for (int i = 0; i < 60; i += 15) {
             minutes.add(i);
         }
         endMinCombo.setItems(minutes);
@@ -173,14 +178,24 @@ public class AppointmentController {
     }
 
     private boolean isValidTime() {
-        if (tempApp.getStart().getHour() < openUTC.getHour()) {
+        LocalTime openGen = LocalTime.of(8,0);
+        LocalTime closeGen = LocalTime.of(22,0);
+        LocalDate oDateGen = startDate.getValue();
+        LocalDate dDateGen = endDate.getValue();
+        LocalDateTime oGen = LocalDateTime.of(oDateGen, openGen);
+        LocalDateTime cGen = LocalDateTime.of(dDateGen, closeGen);
+        ZonedDateTime closeET = ZonedDateTime.of(cGen, ZoneId.of("America/New_York"));
+        ZonedDateTime openET = ZonedDateTime.of(oGen, ZoneId.of("America/New_York"));
+        ZonedDateTime startET = tempApp.getStart().withZoneSameInstant(ZoneId.of("America/New_York"));
+        ZonedDateTime endET = tempApp.getEnd().withZoneSameInstant(ZoneId.of("America/New_York"));
+        if (startET.toInstant().isBefore(openET.toInstant())) {
             appointmentScreenAlert.setTitle(languageBundle.getString("invalidTimeTitle"));
             appointmentScreenAlert.setHeaderText(languageBundle.getString("outBusHoursHeader"));
             appointmentScreenAlert.setContentText(languageBundle.getString("befOpenContent"));
             appointmentScreenAlert.showAndWait();
             return false;
         }
-        if (tempApp.getEnd().getHour() > closeUTC.getHour()) {
+        if (endET.toInstant().isAfter(closeET.toInstant())) {
             appointmentScreenAlert.setTitle(languageBundle.getString("invalidTimeTitle"));
             appointmentScreenAlert.setHeaderText(languageBundle.getString("outBusHoursHeader"));
             appointmentScreenAlert.setContentText(languageBundle.getString("aftCloseContent"));
@@ -200,32 +215,104 @@ public class AppointmentController {
     }
 
     private void autoPopulate() throws SQLException {
-        addressTextBox.setText(tempApp.getLocation());
+        descriptionTextBox.setText(tempApp.getDescription());
         appointmentTitleTextBox.setText(tempApp.getTitle());
         appointmentIdTextBox.setText(String.valueOf(tempApp.getAppointmentId()));
         locationTextBox.setText(tempApp.getLocation());
-        customerTextBox.setText(tempApp.getCustomerName());
+        customerTextBox.setText(String.valueOf(tempApp.getCustomerId()));
         contactComboBox.setValue(Database.getContact(tempApp.getContactId()));
+        endDate.setValue(tempApp.getEnd().toLocalDate());
+        startDate.setValue(tempApp.getStart().toLocalDate());
+        endHourCombo.setValue(tempApp.getEnd().getHour());
+        endMinCombo.setValue(tempApp.getEnd().getMinute());
+        startMinCombo.setValue(tempApp.getStart().getMinute());
+        startHourCombo.setValue(tempApp.getStart().getHour());
+        typeTextBox.setText(tempApp.getType());
+        userIDTextBox.setText(String.valueOf(tempApp.getUserId()));
     }
 
-    public void appointmentSaveClick(ActionEvent actionEvent) throws SQLException {
-        if (!startDate.getValue().equals(null) && !startHourCombo.getValue().equals(null) && !startMinCombo.getValue().equals(null)) {
+    private boolean isCustIDValid() {
+        for (Customer customer : customers) {
+            if (Integer.parseInt(customerTextBox.getText()) == customer.getCustomerId()) {
+                return true;
+            }
+        }
+        appointmentScreenAlert.setTitle(languageBundle.getString("invalidCustTitle"));
+        appointmentScreenAlert.setHeaderText(languageBundle.getString("invalidCustHeader"));
+        StringBuilder invalidCustContent = new StringBuilder(languageBundle.getString("invalidCustContent") + " ");
+        for (Customer customer : customers) {
+            invalidCustContent.append(customer.getCustomerId()).append(" ").append(customer.getCustomerName());
+        }
+        appointmentScreenAlert.setContentText(invalidCustContent.toString());
+        appointmentScreenAlert.showAndWait();
+        return false;
+    }
+
+    private boolean isFinalTempApp() {
+        if (startDate.getValue() == null || startHourCombo.getValue() == null || startMinCombo.getValue() == null ||
+                endDate.getValue() == null || endHourCombo.getValue() == null || endMinCombo.getValue() == null ||
+                customerTextBox.getText() == null || locationTextBox.getText() == null ||
+                appointmentTitleTextBox.getText() == null || descriptionTextBox.getText() == null ||
+                typeTextBox.getText() == null) {
+            appointmentScreenAlert.setTitle(languageBundle.getString("invalidAppTitle"));
+            appointmentScreenAlert.setHeaderText(languageBundle.getString("invalidAppHeader"));
+            appointmentScreenAlert.setContentText(languageBundle.getString("invalidAppContent"));
+            appointmentScreenAlert.showAndWait();
+            return false;
+        }
+        else if (!isCustIDValid()) {
+            return false;
+        }
+        else {
             Integer h = startHourCombo.getValue();
             Integer m = startMinCombo.getValue();
             LocalTime time = LocalTime.of(h,m);
             ZonedDateTime sDate = ZonedDateTime.of(startDate.getValue(), time, ZoneId.systemDefault());
             ZonedDateTime startUTC = sDate.withZoneSameInstant(ZoneOffset.UTC);
             tempApp.setStart(startUTC);
-        }
-        if (!endDate.getValue().equals(null) && !endHourCombo.getValue().equals(null) && !endMinCombo.getValue().equals(null)) {
-            Integer h = endHourCombo.getValue();
-            Integer m = endMinCombo.getValue();
-            LocalTime time = LocalTime.of(h, m);
+            h = endHourCombo.getValue();
+            m = endMinCombo.getValue();
+            time = LocalTime.of(h, m);
             ZonedDateTime eDate = ZonedDateTime.of(endDate.getValue(), time, ZoneId.systemDefault());
             ZonedDateTime endUTC = eDate.withZoneSameInstant(ZoneOffset.UTC);
             tempApp.setEnd(endUTC);
+            Customer tempCust = new Customer();
+            tempApp.setCustomerId(Integer.parseInt(customerTextBox.getText()));
+            try {
+                tempCust = Database.getCustomer(Integer.parseInt(customerTextBox.getText()));
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            tempApp.setCustomerName(tempCust.getCustomerName());
+            tempApp.setLocation(locationTextBox.getText());
+            tempApp.setTitle(appointmentTitleTextBox.getText());
+            tempApp.setDescription(descriptionTextBox.getText());
+            tempApp.setType(typeTextBox.getText());
+            return true;
         }
+    }
 
+    private boolean isValidUser() throws SQLException {
+        ObservableList<String> users = FXCollections.observableArrayList();
+        Database.userList(users);
+        String user = userIDTextBox.getText();
+        if (users.contains(user)) {
+            tempApp.setUserId(Integer.parseInt(userIDTextBox.getText()));
+            return true;
+        }
+        else {
+            appointmentScreenAlert.setTitle(languageBundle.getString("invalidLoginErrorTitle"));
+            appointmentScreenAlert.setHeaderText(languageBundle.getString("invalidLoginErrorHeader"));
+            appointmentScreenAlert.setContentText(languageBundle.getString("invalidLoginErrorContent"));
+            appointmentScreenAlert.showAndWait();
+            return false;
+        }
+    }
+
+    public void appointmentSaveClick(ActionEvent actionEvent) throws SQLException {
+        if (!isFinalTempApp() || !isValidUser()) {
+            return;
+        }
         if (addDeleteModStatus.equalsIgnoreCase("add")) {
             if (isValidTime()) {
                 Database.addAppointment(tempApp);
@@ -235,14 +322,14 @@ public class AppointmentController {
             }
         }
         else if(addDeleteModStatus.equalsIgnoreCase("delete")) {
-            Appointment currentApp = Database.getAppointment(appID);
+            //Appointment currentApp = Database.getAppointment(appID);
             Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
             confirmationAlert.setTitle(languageBundle.getString("appDelTitle"));
-            confirmationAlert.setHeaderText(languageBundle.getString("appDelHeader") + ' ' + currentApp.getType());
-            confirmationAlert.setContentText(languageBundle.getString("appDelContent") + ' ' + currentApp.getAppointmentId());
+            confirmationAlert.setHeaderText(languageBundle.getString("appDelHeader") + ' ' + tempApp.getType());
+            confirmationAlert.setContentText(languageBundle.getString("appDelContent") + ' ' + tempApp.getAppointmentId());
             Optional<ButtonType> confirmation = confirmationAlert.showAndWait();
             if (confirmation.get() == ButtonType.OK) {
-                Database.deleteAppointment(appID);
+                Database.deleteAppointment(tempApp.getAppointmentId());
                 scheduleController.refreshAllApps();
                 Stage currentStage = (Stage) appointmentSaveButton.getScene().getWindow();
                 currentStage.close();
@@ -262,7 +349,6 @@ public class AppointmentController {
             appointmentScreenAlert.setContentText(languageBundle.getString("unexpErrorContent"));
             appointmentScreenAlert.showAndWait();
         }
-        tempApp = null;
     }
 
     public void appointmentStartSelect(ActionEvent actionEvent) {

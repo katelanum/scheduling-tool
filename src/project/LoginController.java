@@ -87,14 +87,35 @@ public class LoginController {
         else {
             logLoginSuccess();
             Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            ObservableList<String> fifteenMinList = FXCollections.observableArrayList();
             for (Appointment appointment : appList) {
                 ZonedDateTime fifteenMin = currentDT.plusMinutes(15);
                 if (appointment.getEnd().isAfter(currentDT) && appointment.getStart().isBefore(fifteenMin)) {
                     String fifteenAppContent = languageBundle.getString("appointmentIDWords") + ": " + String.valueOf(appointment.getAppointmentId()) +
                             languageBundle.getString("start") + ": " + appointment.getStart().format(format) +
                             languageBundle.getString("end") + ": " + appointment.getEnd().format(format);
-                    confirmationAlert.setHeaderText(languageBundle.getString("fifteenAppHeader"));
-                    confirmationAlert.setContentText(fifteenAppContent);
+                    fifteenMinList.add(fifteenAppContent);
+
+                    }
+                }
+            if (fifteenMinList.isEmpty()) {
+                confirmationAlert.setHeaderText(languageBundle.getString("noFifteenAppHeader"));
+                Optional<ButtonType> confirmation = confirmationAlert.showAndWait();
+                if (confirmation.get() == ButtonType.OK) {
+                    Stage currentStage = (Stage) logInButton.getScene().getWindow();
+                    currentStage.close();
+                    ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
+                    Stage loader = FXMLLoader.load(getClass().getResource("ScheduleScreen.fxml"), languageBundle);
+                    LocalTime current = LocalTime.now();
+                    Database.timeCheck(current);
+                    loader.show();
+                }
+            }
+            else {
+                confirmationAlert.setHeaderText(languageBundle.getString("fifteenAppHeader"));
+                for (int i = 0; i < fifteenMinList.size(); i++) {
+                    String content = fifteenMinList.get(i) + "/n";
+                    confirmationAlert.setContentText(content);
                     Optional<ButtonType> confirmation = confirmationAlert.showAndWait();
                     if (confirmation.get() == ButtonType.OK) {
                         Stage currentStage = (Stage) logInButton.getScene().getWindow();
@@ -106,17 +127,6 @@ public class LoginController {
                         loader.show();
                     }
                 }
-            }
-            confirmationAlert.setHeaderText(languageBundle.getString("noFifteenAppHeader"));
-            Optional<ButtonType> confirmation = confirmationAlert.showAndWait();
-            if (confirmation.get() == ButtonType.OK) {
-                Stage currentStage = (Stage) logInButton.getScene().getWindow();
-                currentStage.close();
-                ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
-                Stage loader = FXMLLoader.load(getClass().getResource("ScheduleScreen.fxml"), languageBundle);
-                LocalTime current = LocalTime.now();
-                Database.timeCheck(current);
-                loader.show();
             }
         }
     }
@@ -167,8 +177,8 @@ public class LoginController {
                 for (Appointment appointment : appList) {
                     ZonedDateTime fifteenMin = currentDT.plusMinutes(15);
                     if (appointment.getEnd().isAfter(currentDT) && appointment.getStart().isBefore(fifteenMin)) {
-                        String fifteenAppContent = languageBundle.getString("appointmentIDWords") + ": " + String.valueOf(appointment.getAppointmentId()) +
-                                languageBundle.getString("start") + ": " + appointment.getStart().format(format) +
+                        String fifteenAppContent = languageBundle.getString("appointmentIDWords") + ": " + String.valueOf(appointment.getAppointmentId()) + " " +
+                                languageBundle.getString("start") + ": " + appointment.getStart().format(format) + " " +
                                 languageBundle.getString("end") + ": " + appointment.getEnd().format(format);
                         confirmationAlert.setHeaderText(languageBundle.getString("fifteenAppHeader"));
                         confirmationAlert.setContentText(fifteenAppContent);

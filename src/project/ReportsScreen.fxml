@@ -15,73 +15,55 @@
 <Stage fx:id="scheduleStage" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.ReportsController">
     <scene>
         <Scene fx:id="scheduleScene" fill="#00004f00" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-            <AnchorPane fx:id="customerPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                        minWidth="-Infinity" prefHeight="758.0" prefWidth="1387.0"
-                        style="-fx-background-color: white; -fx-border-color: #a74cae#a74cae; -fx-border-radius: 20; -fx-background-radius: 25;"
-                        xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-                <RadioButton fx:id="typeViewRadio" layoutX="344.0" layoutY="176.0" mnemonicParsing="false"
-                             onAction="#typeViewClick" text="%appbyType">
+            <AnchorPane fx:id="customerPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="758.0" prefWidth="1387.0" style="-fx-background-color: white; -fx-border-color: #a74cae#a74cae; -fx-border-radius: 20; -fx-background-radius: 25;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+                <RadioButton fx:id="typeViewRadio" layoutX="376.0" layoutY="171.0" mnemonicParsing="false" onAction="#typeViewClick" text="%appbyType">
                     <font>
-                        <Font size="18.0"/>
+                        <Font size="18.0" />
                     </font>
                     <toggleGroup>
-                        <ToggleGroup fx:id="reportRadioGroup"/>
+                        <ToggleGroup fx:id="reportRadioGroup" />
                     </toggleGroup>
                 </RadioButton>
-                <RadioButton fx:id="contactViewRadio" layoutX="838.0" layoutY="90.0" mnemonicParsing="false"
-                             onAction="#contactViewClick" text="%appByContact" toggleGroup="$reportRadioGroup">
+                <RadioButton fx:id="contactViewRadio" layoutX="838.0" layoutY="90.0" mnemonicParsing="false" onAction="#contactViewClick" text="%appByContact" toggleGroup="$reportRadioGroup">
                     <font>
-                        <Font size="18.0"/>
+                        <Font size="18.0" />
                     </font>
                 </RadioButton>
-                <Text fx:id="reportsTitle" accessibleRoleDescription="appointments" layoutX="639.0" layoutY="47.0"
-                      strokeType="OUTSIDE" strokeWidth="0.0" text="%reports" textAlignment="CENTER">
+                <Text fx:id="reportsTitle" accessibleRoleDescription="appointments" layoutX="637.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%reports" textAlignment="CENTER">
                     <font>
-                        <Font size="30.0"/>
+                        <Font size="30.0" />
                     </font>
                 </Text>
-                <Button fx:id="reportsClose" layoutX="1237.0" layoutY="691.0" mnemonicParsing="false"
-                        onAction="#reportsCloseClick" prefHeight="27.0" prefWidth="81.0"
-                        style="-fx-background-color: #1a237e; -fx-background-radius: 5; -fx-border-color: #534bae; -fx-border-radius: 5; -fx-text-fill: white;"
-                        text="%close" textFill="#ffffff00">
+                <Button fx:id="reportsClose" layoutX="1237.0" layoutY="691.0" mnemonicParsing="false" onAction="#reportsCloseClick" prefHeight="27.0" prefWidth="81.0" style="-fx-background-color: #1a237e; -fx-background-radius: 5; -fx-border-color: #534bae; -fx-border-radius: 5; -fx-text-fill: white;" text="%close" textFill="#ffffff00">
                     <font>
-                        <Font size="18.0"/>
+                        <Font size="18.0" />
                     </font>
                 </Button>
-                <TableView fx:id="scheduleTableView" layoutX="24.0" layoutY="270.0" prefHeight="402.0"
-                           prefWidth="1341.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;">
+                <TableView fx:id="scheduleTableView" layoutX="24.0" layoutY="270.0" prefHeight="402.0" prefWidth="1341.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;">
                     <columns>
-                        <TableColumn fx:id="appointmentIdColumn" prefWidth="125.0" text="%appointmentIDWords"/>
-                        <TableColumn fx:id="appointmentTitleColumn" prefWidth="125.0" text="%title"/>
-                        <TableColumn fx:id="appointmentDescriptionColumn" prefWidth="214.0" text="%description"/>
-                        <TableColumn fx:id="appointmentLocationColumn" prefWidth="154.0" text="%location"/>
-                        <TableColumn fx:id="appointmentContactColumn" prefWidth="146.0" text="%contactWord"/>
-                        <TableColumn fx:id="appointmentTypeColumn" prefWidth="136.0" text="%type"/>
-                        <TableColumn fx:id="appointmentStartColumn" minWidth="0.0" prefWidth="155.0" text="%start"/>
-                        <TableColumn fx:id="appointmentEndColumn" prefWidth="155.0" text="%end"/>
-                        <TableColumn fx:id="appointmentCustomerIdColumn" prefWidth="130.0" text="%customerWords"/>
+                        <TableColumn fx:id="appointmentIdColumn" prefWidth="125.0" text="%appointmentIDWords" />
+                        <TableColumn fx:id="appointmentTitleColumn" prefWidth="125.0" text="%title" />
+                        <TableColumn fx:id="appointmentDescriptionColumn" prefWidth="214.0" text="%description" />
+                        <TableColumn fx:id="appointmentLocationColumn" prefWidth="154.0" text="%location" />
+                        <TableColumn fx:id="appointmentContactColumn" prefWidth="146.0" text="%contactWord" />
+                        <TableColumn fx:id="appointmentTypeColumn" prefWidth="136.0" text="%type" />
+                        <TableColumn fx:id="appointmentStartColumn" minWidth="0.0" prefWidth="155.0" text="%start" />
+                        <TableColumn fx:id="appointmentEndColumn" prefWidth="155.0" text="%end" />
+                        <TableColumn fx:id="appointmentCustomerIdColumn" prefWidth="130.0" text="%customerWords" />
                     </columns>
                 </TableView>
-                <ComboBox fx:id="typeCombo" layoutX="588.0" layoutY="174.0" onAction="#typeSelection"
-                          prefWidth="150.0"/>
-                <ComboBox fx:id="contactCombo" layoutX="1065.0" layoutY="88.0" onAction="#contactSelection"
-                          prefWidth="150.0"/>
-                <ComboBox fx:id="monthCombo" layoutX="754.0" layoutY="175.0" onAction="#monthSelection"
-                          prefWidth="150.0"/>
-                <RadioButton fx:id="locationRadio" layoutX="46.0" layoutY="89.0" mnemonicParsing="false"
-                             onAction="#locationViewClick" text="%appByLocation" toggleGroup="$reportRadioGroup">
+                <ComboBox fx:id="typeCombo" layoutX="620.0" layoutY="169.0" onAction="#typeSelection" prefWidth="150.0" />
+                <ComboBox fx:id="contactCombo" layoutX="1065.0" layoutY="88.0" onAction="#contactSelection" prefWidth="150.0" />
+                <ComboBox fx:id="monthCombo" layoutX="786.0" layoutY="170.0" onAction="#monthSelection" prefWidth="150.0" />
+                <RadioButton fx:id="locationRadio" layoutX="46.0" layoutY="89.0" mnemonicParsing="false" onAction="#locationViewClick" text="%appByLocation" toggleGroup="$reportRadioGroup">
                     <font>
-                        <Font size="18.0"/>
+                        <Font size="18.0" />
                     </font>
                 </RadioButton>
-                <ComboBox fx:id="locationCombo" layoutX="290.0" layoutY="88.0" onAction="#locationSelection"
-                          prefWidth="150.0"/>
-                <Button fx:id="typeSummaryButton" layoutX="928.0" layoutY="170.0" mnemonicParsing="false"
-                        onAction="#typeSummaryClick" prefHeight="37.0" prefWidth="115.0"
-                        style="-fx-background-color: #1a237e; -fx-background-radius: 5; -fx-border-color: #534bae; -fx-border-radius: 5; -fx-text-fill: white;"
-                        text="%summary" textFill="#ffffff00">
+                <ComboBox fx:id="locationCombo" layoutX="310.0" layoutY="87.0" onAction="#locationSelection" prefWidth="150.0" />
+                <Button fx:id="typeSummaryButton" layoutX="615.0" layoutY="218.0" mnemonicParsing="false" onAction="#typeSummaryClick" prefHeight="37.0" prefWidth="157.0" style="-fx-background-color: #1a237e; -fx-background-radius: 5; -fx-border-color: #534bae; -fx-border-radius: 5; -fx-text-fill: white;" text="%typeSummary" textFill="#ffffff00">
                     <font>
-                        <Font size="18.0"/>
+                        <Font size="18.0" />
                     </font>
                 </Button>
             </AnchorPane>

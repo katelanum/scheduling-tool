@@ -193,8 +193,8 @@ public class Database {
             results = query.executeQuery("SELECT COUNT(Appointment_ID) FROM Appointments");
             results.next();
             if (results.getInt(1) == 0) {
-                query.execute("INSERT INTO Appointments VALUES(1, 'title', 'description', 'location', 'Planning Session', '2020-05-28 12:00:00', '2020-05-28 13:00:00', NOW(), 'script', NOW(), 'script', 1, 1, 3)");
-                query.execute("INSERT INTO Appointments VALUES(2, 'title', 'description', 'location', 'De-Briefing', '2020-05-29 12:00:00', '2020-05-29 13:00:00', NOW(), 'script', NOW(), 'script', 2, 2, 2)");
+                query.execute("INSERT INTO Appointments VALUES(1, 'title', 'description', 'location', 'Planning Session', '2020-05-21 14:00:00', '2020-05-21 15:00:00', NOW(), 'script', NOW(), 'script', 1, 1, 3)");
+                query.execute("INSERT INTO Appointments VALUES(2, 'title', 'description', 'location2', 'De-Briefing', '2020-05-29 14:00:00', '2020-05-29 15:00:00', NOW(), 'script', NOW(), 'script', 2, 2, 2)");
             }
         }
     }
@@ -344,7 +344,9 @@ public class Database {
         return appList;
      }
 
-        public static void addAppointment (Appointment appToAdd) throws SQLException {
+     public static void addAppointment (Appointment appToAdd) throws SQLException {
+        Timestamp end = Timestamp.valueOf(appToAdd.getEnd().toLocalDateTime());
+        Timestamp start = Timestamp.valueOf(appToAdd.getStart().toLocalDateTime());
         String sqlQuery = "INSERT INTO Appointments (Appointment_ID, Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) " +
                 "VALUES ('" +
                 appToAdd.getAppointmentId() + "', '" +
@@ -352,8 +354,8 @@ public class Database {
                 appToAdd.getDescription() + "', '" +
                 appToAdd.getLocation() + "', '" +
                 appToAdd.getType() + "', '" +
-                appToAdd.getStart() + "', '" +
-                appToAdd.getEnd() + "', '" +
+                start + "', '" +
+                end + "', '" +
                 appToAdd.getCustomerId() + "', '" +
                 appToAdd.getUserId() + "', '" +
                 appToAdd.getContactId() + "')";
@@ -361,19 +363,31 @@ public class Database {
         query.execute(sqlQuery);
     }
 
-        public static void deleteAppointment ( int appID) throws SQLException {
+    public static void deleteAppointment ( int appID) throws SQLException {
         String sqlQuery = "DELETE FROM Appointments WHERE Appointment_ID = " + appID;
         Statement query = connection.createStatement();
         query.execute(sqlQuery);
     }
 
-        public static void updateAppointment (Appointment appToUpdate) throws SQLException {
-        String sqlQuery = "DELETE FROM Appointments WHERE Appointment_ID = " + appToUpdate;
+    public static void updateAppointment (Appointment appToUpdate) throws SQLException {
+        Timestamp end = Timestamp.valueOf(appToUpdate.getEnd().toLocalDateTime());
+        Timestamp start = Timestamp.valueOf(appToUpdate.getStart().toLocalDateTime());
+        String sqlQuery = "UPDATE Appointments SET " +
+                "Title = '" + appToUpdate.getTitle() + "', " +
+                "Description = '" + appToUpdate.getDescription() + "', " +
+                "Location = '" + appToUpdate.getLocation() + "', " +
+                "Type = '" + appToUpdate.getType() + "', " +
+                "Start = '" + start + "', " +
+                "End = '" + end + "', " +
+                "Customer_ID = '" + appToUpdate.getCustomerId() + "', " +
+                "User_ID = '" + appToUpdate.getUserId() + "', " +
+                "Contact_ID = '" + appToUpdate.getContactId() +
+                "' WHERE Appointment_ID = '" + appToUpdate.getAppointmentId() + "'";
         Statement query = connection.createStatement();
         query.execute(sqlQuery);
     }
 
-        public static Customer getCustomer ( int customerID) throws SQLException {
+    public static Customer getCustomer ( int customerID) throws SQLException {
         Customer transferCust = new Customer();
         ResultSet custResults = null;
         String sqlQuery = "SELECT * FROM Customers WHERE Customer_ID = " + customerID;
@@ -399,7 +413,7 @@ public class Database {
         return transferCust;
     }
 
-        public static Appointment getAppointment ( int appointmentID) throws SQLException {
+    public static Appointment getAppointment ( int appointmentID) throws SQLException {
         Appointment transferApp = new Appointment();
         ResultSet appResults = null;
         String sqlQuery = "SELECT * FROM Appointments WHERE Appointment_ID = " + appointmentID;
@@ -418,17 +432,17 @@ public class Database {
         return transferApp;
     }
 
-        public static void timeCheck (LocalTime current){
+    public static void timeCheck (LocalTime current){
         Time now = Time.valueOf(current);
     }
 
-        public static void deleteCustomerAppointment ( int custId) throws SQLException {
+    public static void deleteCustomerAppointment ( int custId) throws SQLException {
         String sqlQuery = "DELETE FROM Appointments WHERE Customer_ID = " + custId;
         Statement query = connection.createStatement();
         query.execute(sqlQuery);
     }
 
-        public static void getFLD (ObservableList < FirstLevelDivisions > fldList,int countryID) throws SQLException {
+    public static void getFLD (ObservableList < FirstLevelDivisions > fldList,int countryID) throws SQLException {
         ResultSet fldResults = null;
         String sqlQuery = "SELECT FirstLevelDivisions.Division, FirstLevelDivisions.Division_Id, FirstLevelDivisions.Country_ID, Countries.Country" +
                 " FROM FirstLevelDivisions, Countries WHERE FirstLevelDivisions.Country_ID = Countries.Country_ID AND Countries.Country_ID =" + countryID;
@@ -447,7 +461,7 @@ public class Database {
         }
     }
 
-        public static FirstLevelDivisions getDivision ( int divisionID) throws SQLException {
+    public static FirstLevelDivisions getDivision ( int divisionID) throws SQLException {
         ResultSet fldResults = null;
         String sqlQuery = "SELECT * FROM FirstLevelDivisions WHERE Division_ID =" + divisionID;
         Statement query = connection.createStatement();
@@ -465,7 +479,7 @@ public class Database {
         return tempFLD;
     }
 
-        public static void getCountry (ObservableList < Countries > countryList) throws SQLException {
+    public static void getCountry (ObservableList < Countries > countryList) throws SQLException {
         ResultSet countryResults = null;
         String sqlQuery = "SELECT * FROM Countries";
         Statement query = connection.createStatement();
@@ -478,7 +492,7 @@ public class Database {
         }
     }
 
-        public static Countries getSingleCountry ( int countryId) throws SQLException {
+    public static Countries getSingleCountry ( int countryId) throws SQLException {
         ResultSet countryResults = null;
         String sqlQuery = "SELECT * FROM Countries WHERE Country_ID =" + countryId;
         Statement query = connection.createStatement();
@@ -492,13 +506,23 @@ public class Database {
         return tempCountry;
     }
 
-        public static void popLogInHash (HashMap < String, String > loginHash) throws SQLException {
+    public static void popLogInHash (HashMap < String, String > loginHash) throws SQLException {
         ResultSet loginResults = null;
         String sqlQuery = "SELECT User_Name, Password FROM Users";
         Statement query = connection.createStatement();
         loginResults = query.executeQuery(sqlQuery);
         while (loginResults.next()) {
             loginHash.put(loginResults.getString("User_Name"), loginResults.getString("Password"));
+        }
+    }
+
+    public static void userList(ObservableList<String> userList) throws SQLException {
+        ResultSet userRes = null;
+        String sqlQuery = "SELECT User_ID FROM Users";
+        Statement query = connection.createStatement();
+        userRes = query.executeQuery(sqlQuery);
+        while (userRes.next()) {
+            userList.add(userRes.getString("User_ID"));
         }
     }
 

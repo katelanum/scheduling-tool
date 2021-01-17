@@ -154,12 +154,12 @@ public class Appointment {
 
     public void setStart(Timestamp startTime) {
         LocalDateTime localStart = startTime.toLocalDateTime();
-        start = ZonedDateTime.of(localStart,ZoneId.of("UTC"));
+        start = ZonedDateTime.of(localStart, ZoneId.systemDefault());
     }
 
     public void setEnd(Timestamp endTime) {
         LocalDateTime localEnd= endTime.toLocalDateTime();
-        end = ZonedDateTime.of(localEnd,ZoneId.of("UTC"));
+        end = ZonedDateTime.of(localEnd, ZoneId.systemDefault());
     }
 
     public String getEndForm() {

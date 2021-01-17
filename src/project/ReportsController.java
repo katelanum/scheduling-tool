@@ -157,7 +157,7 @@ public class ReportsController {
 
     public void locationViewClick(ActionEvent actionEvent) {
         listByLoc.clear();
-        if (!locationCombo.getValue().isEmpty()) {
+        if (locationCombo.getValue() != null) {
             String location = locationCombo.getValue();
             for (Appointment appointment : allApp) {
                 if (appointment.getLocation().equalsIgnoreCase(location)) {
