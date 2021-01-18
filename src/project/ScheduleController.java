@@ -12,9 +12,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.chrono.ChronoZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -31,14 +31,6 @@ public class ScheduleController {
     public Button scheduleClose;
     public TableView<Appointment> scheduleTableView;
     public TableColumn<Appointment, Integer> appointmentIdColumn;
-    public TableColumn<Appointment, String> appointmentTitleColumn;
-    public TableColumn<Appointment, String> appointmentDescriptionColumn;
-    public TableColumn<Appointment, String> appointmentLocationColumn;
-    public TableColumn<Appointment, String> appointmentContactColumn;
-    public TableColumn<Appointment, String> appointmentTypeColumn;
-    public TableColumn<Appointment, String> appointmentStartColumn;
-    public TableColumn<Appointment, String> appointmentEndColumn;
-    public TableColumn<Appointment, Integer> appointmentCustomerIdColumn;
     public Button openReportsButton;
     public RadioButton allViewRadio;
     public ToggleGroup scheduleRadioGroup;
@@ -47,6 +39,15 @@ public class ScheduleController {
     private final ObservableList<Appointment> allApp = FXCollections.observableArrayList();
     private final ZonedDateTime currentDT = ZonedDateTime.now();
     private final ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
+    public TableColumn<Appointment, String> titleColumn;
+    public TableColumn<Appointment, String> descriptionColumn;
+    public TableColumn<Appointment, String> locationColumn;
+    public TableColumn<Appointment, String> contactColumn;
+    public TableColumn<Appointment, String> typeColumn;
+    public TableColumn<Appointment, String> startColumn;
+    public TableColumn<Appointment, String> endColumn;
+    public TableColumn<Appointment, Integer> customerIdColumn;
+    public TableColumn<Appointment, String> customerColumn;
     DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm MM-dd-yyyy");
 
     public void openAppointmentClick(ActionEvent actionEvent) throws IOException {
@@ -90,11 +91,41 @@ public class ScheduleController {
 
     public void weekViewClick(ActionEvent actionEvent) {
         weekApp.clear();
+        ZonedDateTime weekStart;
+        ZonedDateTime weekEnd;
+        if (currentDT.getDayOfWeek().getValue() == 7) {
+            weekStart = currentDT.minusDays(1);
+            weekEnd = currentDT.plusDays(7);
+        }
+        else if (currentDT.getDayOfWeek().getValue() == 1) {
+            weekStart = currentDT.minusDays(1);
+            weekEnd = currentDT.plusDays(6);
+        }
+        else if (currentDT.getDayOfWeek().getValue() == 2) {
+            weekStart = currentDT.minusDays(2);
+            weekEnd = currentDT.plusDays(5);
+        }
+        else if (currentDT.getDayOfWeek().getValue() == 3) {
+            weekStart = currentDT.minusDays(3);
+            weekEnd = currentDT.plusDays(4);
+        }
+        else if (currentDT.getDayOfWeek().getValue() == 4) {
+            weekStart = currentDT.minusDays(4);
+            weekEnd = currentDT.plusDays(3);
+        }
+        else if (currentDT.getDayOfWeek().getValue() == 5) {
+            weekStart = currentDT.minusDays(5);
+            weekEnd = currentDT.plusDays(2);
+        }
+        else {
+            weekStart = currentDT.minusDays(6);
+            weekEnd = currentDT.plusDays(1);
+        }
         for (Appointment appointment : allApp) {
             if ((appointment.getEnd().getYear() == currentDT.getYear()) &&
                     (appointment.getEnd().getMonth() == currentDT.getMonth()) &&
-                    (appointment.getEnd().getDayOfMonth() <= currentDT.getDayOfMonth() + 7) &&
-                    (appointment.getStart().getDayOfMonth() >= currentDT.getDayOfMonth())) {
+                    (appointment.getEnd().isBefore(ChronoZonedDateTime.from(weekEnd))) &&
+                    (appointment.getStart().isAfter(ChronoZonedDateTime.from(weekStart)))) {
                 weekApp.add(appointment);
             }
         }
@@ -105,18 +136,19 @@ public class ScheduleController {
         Database.initializeAppointmentList(allApp);
         scheduleTableView.setEditable(true);
         appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
-        appointmentTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-        appointmentDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        appointmentLocationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
-        appointmentContactColumn.setCellValueFactory(new PropertyValueFactory<>("contactName"));
-        appointmentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-        appointmentStartColumn.setCellValueFactory(appt -> {
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        locationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
+        contactColumn.setCellValueFactory(new PropertyValueFactory<>("contactName"));
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        startColumn.setCellValueFactory(appt -> {
             return new ReadOnlyStringWrapper(appt.getValue().getStart().withZoneSameInstant(ZoneOffset.systemDefault()).format(format));
         });
-        appointmentEndColumn.setCellValueFactory(appt -> {
+        endColumn.setCellValueFactory(appt -> {
             return new ReadOnlyStringWrapper(appt.getValue().getEnd().withZoneSameInstant(ZoneOffset.systemDefault()).format(format));
         });
-        appointmentCustomerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        customerColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         scheduleTableView.setPlaceholder(new Label(languageBundle.getString("noApp")));
         scheduleTableView.setItems(allApp);
     }

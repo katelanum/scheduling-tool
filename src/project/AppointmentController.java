@@ -28,7 +28,6 @@ public class AppointmentController {
     public TextField appointmentTitleTextBox;
     public Text appointmentTitleText;
     public Text descriptionText;
-    public TextField addressTextBox;
     public TextField locationTextBox;
     public Text locationText;
     public Text customerText;
@@ -45,14 +44,6 @@ public class AppointmentController {
     private final Alert appointmentScreenAlert = new Alert(Alert.AlertType.WARNING);
     public TableView<Appointment> appointmentTableView;
     public TableColumn<Appointment, Integer> appointmentIdColumn;
-    public TableColumn<Appointment, String> appointmentTitleColumn;
-    public TableColumn<Appointment, String> appointmentDescriptionColumn;
-    public TableColumn<Appointment, String> appointmentLocationColumn;
-    public TableColumn<Appointment, String> appointmentContactColumn;
-    public TableColumn<Appointment, String> appointmentTypeColumn;
-    public TableColumn<Appointment, String> appointmentStartColumn;
-    public TableColumn<Appointment, String> appointmentEndColumn;
-    public TableColumn<Appointment, Integer> appointmentCustomerIdColumn;
     public Button appointmentCancelButton;
     public ChoiceBox<Integer> endHourCombo;
     public ChoiceBox<Integer> endMinCombo;
@@ -63,33 +54,25 @@ public class AppointmentController {
     public Text userIDText;
     public TextField typeTextBox;
     public Text typeText;
-    String addDeleteModStatus = "add";
-    private ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
-    private boolean isValidTime = false;
-    private ZonedDateTime appointmentStart;
-    private ZonedDateTime appointmentEnd;
-    private Appointment tempApp = new Appointment();
-    private int appID;
-    private int appointmentIdCount;
-    private ObservableList<Contacts> contactList = FXCollections.observableArrayList();
-    private LoginController loginController;
+    public TableColumn<Appointment, String> titleColumn;
+    public TableColumn<Appointment, String> descriptionColumn;
+    public TableColumn<Appointment, String> locationColumn;
+    public TableColumn<Appointment, String> contactColumn;
+    public TableColumn<Appointment, String> typeColumn;
+    public TableColumn<Appointment, String> startColumn;
+    public TableColumn<Appointment, String> endColumn;
+    public TableColumn<Appointment, Integer>  customerIdColumn;
+    public TableColumn<Appointment, String> customerColumn;
+    private String addDeleteModStatus = "add";
+    private final ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
+    private final Appointment tempApp = new Appointment();
+    private final ObservableList<Contacts> contactList = FXCollections.observableArrayList();
     private ScheduleController scheduleController;
-    private CustomerController customerController;
-    private ObservableList<Appointment> allApp = FXCollections.observableArrayList();
-//    private LocalTime openGen = LocalTime.of(13,00);
-//    private LocalTime closeGen = LocalTime.of(3,00);
-//    private LocalDate oDateGen = LocalDate.of(2020,1,1);
-//    private LocalDate dDateGen = LocalDate.of(2020,1,2);
-//    private LocalDateTime oGen = LocalDateTime.of(oDateGen, openGen);
-//    private LocalDateTime cGen = LocalDateTime.of(dDateGen, closeGen);
-//    private ZonedDateTime closeUTC = ZonedDateTime.of(cGen, ZoneOffset.UTC);
-//    private ZonedDateTime openUTC = ZonedDateTime.of(oGen, ZoneOffset.UTC);
-//    private ZonedDateTime closeLocal = closeUTC.withZoneSameInstant(ZoneOffset.systemDefault());
-//    private ZonedDateTime openLocal = openUTC.withZoneSameInstant(ZoneOffset.systemDefault());
-    private ObservableList<Integer> minutes = FXCollections.observableArrayList();
-    private ObservableList<Integer> hours = FXCollections.observableArrayList();
-    DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm MM-dd-yyyy");
-    private ObservableList<Customer> customers = FXCollections.observableArrayList();
+    private final ObservableList<Appointment> allApp = FXCollections.observableArrayList();
+    private final ObservableList<Integer> minutes = FXCollections.observableArrayList();
+    private final ObservableList<Integer> hours = FXCollections.observableArrayList();
+    private final DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm MM-dd-yyyy");
+    private final ObservableList<Customer> customers = FXCollections.observableArrayList();
 
     public void initialize() throws SQLException {
         initializeContactBox();
@@ -97,21 +80,19 @@ public class AppointmentController {
         Database.initializeCustomerList(customers);
         appointmentTableView.setEditable(true);
         appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
-        appointmentTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-        appointmentDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        appointmentLocationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
-        appointmentContactColumn.setCellValueFactory(new PropertyValueFactory<>("contactName"));
-        appointmentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-        // below takes in the start and then that is able to be changed to the correct time zone
-        // need to update the appointment to deal with ZonedDateTime
-        // have all storage be in UTC and only deal with local in UI
-        appointmentStartColumn.setCellValueFactory(appt -> {
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        locationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
+        contactColumn.setCellValueFactory(new PropertyValueFactory<>("contactName"));
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        startColumn.setCellValueFactory(appt -> {
             return new ReadOnlyStringWrapper(appt.getValue().getStart().withZoneSameInstant(ZoneOffset.systemDefault()).format(format));
         });
-        appointmentEndColumn.setCellValueFactory(appt -> {
+        endColumn.setCellValueFactory(appt -> {
             return new ReadOnlyStringWrapper(appt.getValue().getEnd().withZoneSameInstant(ZoneOffset.systemDefault()).format(format));
         });
-        appointmentCustomerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        customerColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         appointmentTableView.setPlaceholder(new Label(languageBundle.getString("noApp")));
         appointmentTableView.setItems(allApp);
         initializeMinBoxes();
@@ -146,11 +127,14 @@ public class AppointmentController {
 
     public void appointmentUpdateClick(ActionEvent actionEvent) throws SQLException {
         addDeleteModStatus = "update";
-        tempAppSetter();
-        autoPopulate();
+        Appointment selectedApp = appointmentTableView.getSelectionModel().getSelectedItem();
+        if (selectedApp != null) {
+            tempAppSetter();
+            autoPopulate();
+        }
     }
 
-    private void tempAppSetter() throws SQLException {
+    private void tempAppSetter() {
         if (appointmentTableView.getSelectionModel().getSelectedItem() != null) {
             tempApp.setStart(appointmentTableView.getSelectionModel().getSelectedItem().getStart());
             tempApp.setType(appointmentTableView.getSelectionModel().getSelectedItem().getType());
@@ -167,8 +151,11 @@ public class AppointmentController {
 
     public void appointmentDeleteClick(ActionEvent actionEvent) throws SQLException {
         addDeleteModStatus = "delete";
-        tempAppSetter();
-        autoPopulate();
+        Appointment selectedApp = appointmentTableView.getSelectionModel().getSelectedItem();
+        if (selectedApp != null) {
+            tempAppSetter();
+            autoPopulate();
+        }
     }
 
     public void contactComboSelect(ActionEvent actionEvent) {
@@ -202,8 +189,15 @@ public class AppointmentController {
             appointmentScreenAlert.showAndWait();
             return false;
         }
-        for (int i = 0; i < allApp.size(); i++) {
-            if (tempApp.getEnd().isBefore(allApp.get(i).getEnd()) && tempApp.getStart().isAfter(allApp.get(i).getStart())) {
+        for (Appointment appointment : allApp) {
+            if (!tempApp.getStart().isAfter(appointment.getEnd()) && !tempApp.getStart().isBefore(appointment.getStart())) {
+                appointmentScreenAlert.setTitle(languageBundle.getString("invalidTimeTitle"));
+                appointmentScreenAlert.setHeaderText(languageBundle.getString("doubleBookHeader"));
+                appointmentScreenAlert.setContentText(languageBundle.getString("doubleBookContent"));
+                appointmentScreenAlert.showAndWait();
+                return false;
+            }
+            if (!tempApp.getEnd().isBefore(appointment.getStart()) && !tempApp.getEnd().isAfter(appointment.getEnd())) {
                 appointmentScreenAlert.setTitle(languageBundle.getString("invalidTimeTitle"));
                 appointmentScreenAlert.setHeaderText(languageBundle.getString("doubleBookHeader"));
                 appointmentScreenAlert.setContentText(languageBundle.getString("doubleBookContent"));
@@ -322,7 +316,6 @@ public class AppointmentController {
             }
         }
         else if(addDeleteModStatus.equalsIgnoreCase("delete")) {
-            //Appointment currentApp = Database.getAppointment(appID);
             Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
             confirmationAlert.setTitle(languageBundle.getString("appDelTitle"));
             confirmationAlert.setHeaderText(languageBundle.getString("appDelHeader") + ' ' + tempApp.getType());
@@ -359,15 +352,6 @@ public class AppointmentController {
 
     public void setScheduleController(ScheduleController controller) {
         this.scheduleController = controller;
-    }
-
-
-    public void setLoginController(LoginController loginController) {
-        this.loginController = loginController;
-    }
-
-    public void setCustomerController(CustomerController customerController) {
-        this.customerController = customerController;
     }
 
     public void appointmentCancelClick(ActionEvent actionEvent) {

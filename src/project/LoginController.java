@@ -37,19 +37,15 @@ public class LoginController {
     public Button logInButton;
     private ResourceBundle languageBundle;
     private final Alert loginScreenAlert = new Alert(Alert.AlertType.WARNING);
-    private AppointmentController appointmentController;
-    private CustomerController customerController;
-    private ScheduleController scheduleController;
     private final HashMap<String, String> loginMap = new HashMap<>();
     ZonedDateTime currentDT = ZonedDateTime.now();
     DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm MM-dd-yyyy");
     ObservableList<Appointment> appList = FXCollections.observableArrayList();
     Logger logInFile = Logger.getLogger("login_activity.txt");
 
-    public Text setLoginLocationText() {
+    public void setLoginLocationText() {
         ZoneId location = ZoneId.systemDefault();
         loginLocationText.setText(String.valueOf(location));
-        return loginLocationText;
     }
 
     public void initialize() throws SQLException {
@@ -91,11 +87,10 @@ public class LoginController {
             for (Appointment appointment : appList) {
                 ZonedDateTime fifteenMin = currentDT.plusMinutes(15);
                 if (appointment.getEnd().isAfter(currentDT) && appointment.getStart().isBefore(fifteenMin)) {
-                    String fifteenAppContent = languageBundle.getString("appointmentIDWords") + ": " + String.valueOf(appointment.getAppointmentId()) +
-                            languageBundle.getString("start") + ": " + appointment.getStart().format(format) +
-                            languageBundle.getString("end") + ": " + appointment.getEnd().format(format);
+                    String fifteenAppContent = languageBundle.getString("appointmentIDWords") + ": " + appointment.getAppointmentId() +
+                            " " + languageBundle.getString("start") + ": " + appointment.getStart().format(format) +
+                            " " + languageBundle.getString("end") + ": " + appointment.getEnd().format(format);
                     fifteenMinList.add(fifteenAppContent);
-
                     }
                 }
             if (fifteenMinList.isEmpty()) {
@@ -112,27 +107,24 @@ public class LoginController {
                 }
             }
             else {
+                StringBuilder listContent = new StringBuilder();
                 confirmationAlert.setHeaderText(languageBundle.getString("fifteenAppHeader"));
-                for (int i = 0; i < fifteenMinList.size(); i++) {
-                    String content = fifteenMinList.get(i) + "/n";
-                    confirmationAlert.setContentText(content);
-                    Optional<ButtonType> confirmation = confirmationAlert.showAndWait();
-                    if (confirmation.get() == ButtonType.OK) {
-                        Stage currentStage = (Stage) logInButton.getScene().getWindow();
-                        currentStage.close();
-                        ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
-                        Stage loader = FXMLLoader.load(getClass().getResource("ScheduleScreen.fxml"), languageBundle);
-                        LocalTime current = LocalTime.now();
-                        Database.timeCheck(current);
-                        loader.show();
-                    }
+                for (String s : fifteenMinList) {
+                    listContent.append(s).append("/n");
+                }
+                confirmationAlert.setContentText(String.valueOf(listContent));
+                Optional<ButtonType> confirmation = confirmationAlert.showAndWait();
+                if (confirmation.get() == ButtonType.OK) {
+                    Stage currentStage = (Stage) logInButton.getScene().getWindow();
+                    currentStage.close();
+                    ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
+                    Stage loader = FXMLLoader.load(getClass().getResource("ScheduleScreen.fxml"), languageBundle);
+                    LocalTime current = LocalTime.now();
+                    Database.timeCheck(current);
+                    loader.show();
                 }
             }
         }
-    }
-
-    public void setAppointmentController(AppointmentController appointmentController) {
-        this.appointmentController = appointmentController;
     }
 
     private void logLoginFailure() {
@@ -143,14 +135,6 @@ public class LoginController {
     private void logLoginSuccess() {
         String logString = languageBundle.getString("loginSuccess") + ": " + currentDT.format(format);
         logInFile.log(Level.INFO, logString);
-    }
-
-    public void setCustomerController(CustomerController customerController) {
-        this.customerController = customerController;
-    }
-
-    public void setScheduleController(ScheduleController scheduleController) {
-        this.scheduleController = scheduleController;
     }
 
     public void keyRelease(KeyEvent keyEvent) throws IOException {
@@ -177,7 +161,7 @@ public class LoginController {
                 for (Appointment appointment : appList) {
                     ZonedDateTime fifteenMin = currentDT.plusMinutes(15);
                     if (appointment.getEnd().isAfter(currentDT) && appointment.getStart().isBefore(fifteenMin)) {
-                        String fifteenAppContent = languageBundle.getString("appointmentIDWords") + ": " + String.valueOf(appointment.getAppointmentId()) + " " +
+                        String fifteenAppContent = languageBundle.getString("appointmentIDWords") + ": " + appointment.getAppointmentId() + " " +
                                 languageBundle.getString("start") + ": " + appointment.getStart().format(format) + " " +
                                 languageBundle.getString("end") + ": " + appointment.getEnd().format(format);
                         confirmationAlert.setHeaderText(languageBundle.getString("fifteenAppHeader"));

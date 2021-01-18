@@ -31,15 +31,15 @@ public class ReportsController {
     public ComboBox<String> monthCombo;
     public RadioButton locationRadio;
     public TableView<Appointment> scheduleTableView;
-    public TableColumn<Appointment, Integer> appointmentIdColumn;
-    public TableColumn<Appointment, String> appointmentTitleColumn;
-    public TableColumn<Appointment, String> appointmentDescriptionColumn;
-    public TableColumn<Appointment, String> appointmentLocationColumn;
-    public TableColumn<Appointment, String> appointmentContactColumn;
-    public TableColumn<Appointment, String> appointmentTypeColumn;
-    public TableColumn<Appointment, String> appointmentStartColumn;
-    public TableColumn<Appointment, String> appointmentEndColumn;
-    public TableColumn<Appointment, Integer> appointmentCustomerIdColumn;
+    public TableColumn<Appointment, String> titleColumn;
+    public TableColumn<Appointment, String> descriptionColumn;
+    public TableColumn<Appointment, String> locationColumn;
+    public TableColumn<Appointment, String> contactColumn;
+    public TableColumn<Appointment, String> typeColumn;
+    public TableColumn<Appointment, String> startColumn;
+    public TableColumn<Appointment, String> endColumn;
+    public TableColumn<Appointment, Integer> customerIdColumn;
+    public TableColumn<Appointment, String> customerColumn;
     public ComboBox<String> locationCombo;
     public ToggleGroup reportRadioGroup;
     public Button typeSummaryButton;
@@ -53,6 +53,7 @@ public class ReportsController {
     private final ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
     private final ObservableList<Appointment> allApp = FXCollections.observableArrayList();
     private final DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm MM-dd-yyyy");
+    public TableColumn<Appointment,Integer> appointmentIdColumn;
 
     public void initialize() throws SQLException {
         initializeContact();
@@ -61,19 +62,21 @@ public class ReportsController {
         initializeLocation();
         Database.initializeAppointmentList(allApp);
         scheduleTableView.setEditable(true);
+        scheduleTableView.setEditable(true);
         appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
-        appointmentTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-        appointmentDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        appointmentLocationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
-        appointmentContactColumn.setCellValueFactory(new PropertyValueFactory<>("contactName"));
-        appointmentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-        appointmentStartColumn.setCellValueFactory(appt -> {
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        locationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
+        contactColumn.setCellValueFactory(new PropertyValueFactory<>("contactName"));
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        startColumn.setCellValueFactory(appt -> {
             return new ReadOnlyStringWrapper(appt.getValue().getStart().withZoneSameInstant(ZoneOffset.systemDefault()).format(format));
         });
-        appointmentEndColumn.setCellValueFactory(appt -> {
+        endColumn.setCellValueFactory(appt -> {
             return new ReadOnlyStringWrapper(appt.getValue().getEnd().withZoneSameInstant(ZoneOffset.systemDefault()).format(format));
         });
-        appointmentCustomerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        customerColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         scheduleTableView.setPlaceholder(new Label(languageBundle.getString("noApp")));
         scheduleTableView.setItems(allApp);
     }
@@ -104,8 +107,8 @@ public class ReportsController {
         ObservableList<Appointment> appointments =  FXCollections.observableArrayList();
         Database.initializeAppointmentList(appointments);
         for (Appointment appointment : appointments) {
-            if (!typeList.contains(appointment.getType())) {
-                typeList.add(appointment.getType());
+            if (!typeList.contains(appointment.getType().toLowerCase())) {
+                typeList.add(appointment.getType().toLowerCase());
             }
         }
         typeCombo.setItems(typeList);
@@ -226,7 +229,7 @@ public class ReportsController {
 
     public void typeSummaryClick(ActionEvent actionEvent) throws IOException {
         ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("typeSummaryScreen.fxml"), languageBundle);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("TypeSummaryScreen.fxml"), languageBundle);
         Stage stage = loader.load();
         stage.show();
     }

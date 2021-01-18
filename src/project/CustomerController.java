@@ -57,8 +57,6 @@ public class CustomerController {
     private final ObservableList<Customer> customerList = FXCollections.observableArrayList();
     private final ObservableList<FirstLevelDivisions> fldList = FXCollections.observableArrayList();
     private final ObservableList<Countries> countryList = FXCollections.observableArrayList();
-    private AppointmentController appointmentController;
-    private LoginController loginController;
     private ScheduleController scheduleController;
     private int countryId;
 
@@ -107,7 +105,8 @@ public class CustomerController {
 
     public boolean tempCustCreated() {
         if (nameTextBox.getText().isEmpty() || phoneTextBox.getText().isEmpty() ||
-                zipTextBox.getText().isEmpty() || stateComboBox.getValue() == null || addressTextBox.getText().isEmpty() || countryComboBox.getValue() == null) {
+                zipTextBox.getText().isEmpty() || stateComboBox.getValue() == null || addressTextBox.getText().isEmpty()
+                || countryComboBox.getValue() == null) {
             return false;
         }
         if (!nameTextBox.getText().isEmpty()) {
@@ -243,14 +242,6 @@ public class CustomerController {
             Stage currentStage = (Stage) customerCancelButton.getScene().getWindow();
             currentStage.close();
         }
-    }
-
-    public void setAppointmentController(AppointmentController appointmentController) {
-        this.appointmentController = appointmentController;
-    }
-
-    public void setLoginController(LoginController loginController) {
-        this.loginController = loginController;
     }
 
     public void setScheduleController(ScheduleController scheduleController) {

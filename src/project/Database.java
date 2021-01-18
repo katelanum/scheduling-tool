@@ -2,6 +2,7 @@ package project;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
 import java.sql.*;
 import java.time.LocalTime;
 import java.util.HashMap;
@@ -200,7 +201,7 @@ public class Database {
     }
 
     public static void popContactsList(ObservableList<Contacts> contactList) throws SQLException {
-        ResultSet contactRes = null;
+        ResultSet contactRes;
         Statement query = connection.createStatement();
         String sqlQuery = "SELECT * FROM Contacts";
         contactRes = query.executeQuery(sqlQuery);
@@ -214,8 +215,8 @@ public class Database {
     }
 
     public static void initializeCustomerList(ObservableList<Customer> custList) {
-        ResultSet custResults = null;
-        ResultSet temp = null;
+        ResultSet custResults;
+        ResultSet temp;
         try {
             Statement query = connection.createStatement();
             Statement qTemp = connection.createStatement();
@@ -247,14 +248,14 @@ public class Database {
     }
 
     public static void initializeAppointmentList(ObservableList<Appointment> appList) {
-        ResultSet appResults = null;
+        ResultSet appResults;
         try {
             Statement query = connection.createStatement();
             appResults = query.executeQuery("SELECT * FROM Appointments");
             while (appResults.next()) {
                 Appointment tempApp = new Appointment();
-                Customer tempCust = new Customer();
-                Contacts tempContact = new Contacts();
+                Customer tempCust;
+                Contacts tempContact;
                 tempApp.setDescription(appResults.getString("Description"));
                 tempApp.setTitle(appResults.getString("Title"));
                 tempApp.setAppointmentId(appResults.getInt("Appointment_ID"));
@@ -278,7 +279,7 @@ public class Database {
 
     public static Contacts getContact(int contactID) throws SQLException {
         Contacts transferContact = new Contacts();
-        ResultSet contResults = null;
+        ResultSet contResults;
         String sqlQuery = "SELECT * FROM Contacts WHERE Contact_ID = " + contactID;
         Statement query = connection.createStatement();
         contResults = query.executeQuery(sqlQuery);
@@ -323,7 +324,7 @@ public class Database {
 
     public static ObservableList<Appointment> getCustomerApps(int customerId) throws SQLException {
         ObservableList<Appointment> appList = FXCollections.observableArrayList();
-        ResultSet appResults = null;
+        ResultSet appResults;
         String sqlQuery = "SELECT * FROM Appointments WHERE Customer_ID = " + customerId;
         Statement query = connection.createStatement();
         appResults = query.executeQuery(sqlQuery);
@@ -389,7 +390,7 @@ public class Database {
 
     public static Customer getCustomer ( int customerID) throws SQLException {
         Customer transferCust = new Customer();
-        ResultSet custResults = null;
+        ResultSet custResults;
         String sqlQuery = "SELECT * FROM Customers WHERE Customer_ID = " + customerID;
         Statement query = connection.createStatement();
         custResults = query.executeQuery(sqlQuery);
@@ -415,7 +416,7 @@ public class Database {
 
     public static Appointment getAppointment ( int appointmentID) throws SQLException {
         Appointment transferApp = new Appointment();
-        ResultSet appResults = null;
+        ResultSet appResults;
         String sqlQuery = "SELECT * FROM Appointments WHERE Appointment_ID = " + appointmentID;
         Statement query = connection.createStatement();
         appResults = query.executeQuery(sqlQuery);
@@ -443,11 +444,10 @@ public class Database {
     }
 
     public static void getFLD (ObservableList < FirstLevelDivisions > fldList,int countryID) throws SQLException {
-        ResultSet fldResults = null;
+        ResultSet fldResults;
         String sqlQuery = "SELECT FirstLevelDivisions.Division, FirstLevelDivisions.Division_Id, FirstLevelDivisions.Country_ID, Countries.Country" +
                 " FROM FirstLevelDivisions, Countries WHERE FirstLevelDivisions.Country_ID = Countries.Country_ID AND Countries.Country_ID =" + countryID;
         Statement query = connection.createStatement();
-        Statement tempQ = null;
         fldResults = query.executeQuery(sqlQuery);
         fldList.clear();
         while (fldResults.next()) {
@@ -462,10 +462,9 @@ public class Database {
     }
 
     public static FirstLevelDivisions getDivision ( int divisionID) throws SQLException {
-        ResultSet fldResults = null;
+        ResultSet fldResults;
         String sqlQuery = "SELECT * FROM FirstLevelDivisions WHERE Division_ID =" + divisionID;
         Statement query = connection.createStatement();
-        Statement tempQ = null;
         fldResults = query.executeQuery(sqlQuery);
         FirstLevelDivisions tempFLD = new FirstLevelDivisions();
         while (fldResults.next()) {
@@ -480,7 +479,7 @@ public class Database {
     }
 
     public static void getCountry (ObservableList < Countries > countryList) throws SQLException {
-        ResultSet countryResults = null;
+        ResultSet countryResults;
         String sqlQuery = "SELECT * FROM Countries";
         Statement query = connection.createStatement();
         countryResults = query.executeQuery(sqlQuery);
@@ -493,10 +492,9 @@ public class Database {
     }
 
     public static Countries getSingleCountry ( int countryId) throws SQLException {
-        ResultSet countryResults = null;
+        ResultSet countryResults;
         String sqlQuery = "SELECT * FROM Countries WHERE Country_ID =" + countryId;
         Statement query = connection.createStatement();
-        Statement tempQ = null;
         countryResults = query.executeQuery(sqlQuery);
         Countries tempCountry = new Countries();
         while (countryResults.next()) {
@@ -507,7 +505,7 @@ public class Database {
     }
 
     public static void popLogInHash (HashMap < String, String > loginHash) throws SQLException {
-        ResultSet loginResults = null;
+        ResultSet loginResults;
         String sqlQuery = "SELECT User_Name, Password FROM Users";
         Statement query = connection.createStatement();
         loginResults = query.executeQuery(sqlQuery);
@@ -517,7 +515,7 @@ public class Database {
     }
 
     public static void userList(ObservableList<String> userList) throws SQLException {
-        ResultSet userRes = null;
+        ResultSet userRes;
         String sqlQuery = "SELECT User_ID FROM Users";
         Statement query = connection.createStatement();
         userRes = query.executeQuery(sqlQuery);

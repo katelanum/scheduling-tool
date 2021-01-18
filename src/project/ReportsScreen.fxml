@@ -41,15 +41,16 @@
                 </Button>
                 <TableView fx:id="scheduleTableView" layoutX="24.0" layoutY="270.0" prefHeight="402.0" prefWidth="1341.0" style="-fx-border-color: #a74cae; -fx-border-radius: 5;">
                     <columns>
-                        <TableColumn fx:id="appointmentIdColumn" prefWidth="125.0" text="%appointmentIDWords" />
-                        <TableColumn fx:id="appointmentTitleColumn" prefWidth="125.0" text="%title" />
-                        <TableColumn fx:id="appointmentDescriptionColumn" prefWidth="214.0" text="%description" />
-                        <TableColumn fx:id="appointmentLocationColumn" prefWidth="154.0" text="%location" />
-                        <TableColumn fx:id="appointmentContactColumn" prefWidth="146.0" text="%contactWord" />
-                        <TableColumn fx:id="appointmentTypeColumn" prefWidth="136.0" text="%type" />
-                        <TableColumn fx:id="appointmentStartColumn" minWidth="0.0" prefWidth="155.0" text="%start" />
-                        <TableColumn fx:id="appointmentEndColumn" prefWidth="155.0" text="%end" />
-                        <TableColumn fx:id="appointmentCustomerIdColumn" prefWidth="130.0" text="%customerWords" />
+                        <TableColumn fx:id="appointmentIdColumn" prefWidth="110.0" text="%appointmentIDWords" />
+                        <TableColumn fx:id="titleColumn" prefWidth="120.0" text="%title" />
+                        <TableColumn fx:id="descriptionColumn" prefWidth="140.0" text="%description" />
+                        <TableColumn fx:id="locationColumn" prefWidth="140.0" text="%location" />
+                        <TableColumn fx:id="contactColumn" prefWidth="145.0" text="%contactWord" />
+                        <TableColumn fx:id="typeColumn" prefWidth="145.0" text="%type" />
+                        <TableColumn fx:id="startColumn" minWidth="0.0" prefWidth="140.0" text="%start" />
+                        <TableColumn fx:id="endColumn" prefWidth="140.0" text="%end" />
+                        <TableColumn fx:id="customerIdColumn" prefWidth="110.0" text="%customerIDWords" />
+                        <TableColumn fx:id="customerColumn" prefWidth="145.0" text="%customerWords" />
                     </columns>
                 </TableView>
                 <ComboBox fx:id="typeCombo" layoutX="620.0" layoutY="169.0" onAction="#typeSelection" prefWidth="150.0" />

@@ -12,18 +12,18 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class typeSummaryController {
+public class TypeSummaryController {
     public Text typeSummTitle;
     public Stage typeSummStage;
     public Scene typeSummScene;
     public AnchorPane typeSummPane;
     public Button closeButton;
-    public TableView<typeMonthContainer> typeTableView;
-    public TableColumn<typeMonthContainer, String> monthColumn;
-    public TableColumn<typeMonthContainer, String> typeColumn;
-    public TableColumn<typeMonthContainer, Integer> countColumn;
+    public TableView<TypeMonthContainer> typeTableView;
+    public TableColumn<TypeMonthContainer, String> monthColumn;
+    public TableColumn<TypeMonthContainer, String> typeColumn;
+    public TableColumn<TypeMonthContainer, Integer> countColumn;
     private final ObservableList<Appointment> allApp = FXCollections.observableArrayList();
-    private ObservableList<typeMonthContainer> summaries = FXCollections.observableArrayList();
+    private ObservableList<TypeMonthContainer> summaries = FXCollections.observableArrayList();
     private final ObservableList<String> typesList = FXCollections.observableArrayList();
 
     public void initialize() {
@@ -38,13 +38,13 @@ public class typeSummaryController {
 
     private void initializeSummaries() {
         for (Appointment appointment : allApp) {
-            if (!typesList.contains(appointment.getType())) {
-                typesList.add(appointment.getType());
+            if (!typesList.contains(appointment.getType().toLowerCase())) {
+                typesList.add(appointment.getType().toLowerCase());
             }
         }
         for (String s : typesList) {
             for (int j = 1; j < 13; j++) {
-                typeMonthContainer tempContainer = new typeMonthContainer();
+                TypeMonthContainer tempContainer = new TypeMonthContainer();
                 tempContainer.setCount(0);
                 tempContainer.setMonthNum(j);
                 tempContainer.setType(s);
@@ -52,7 +52,7 @@ public class typeSummaryController {
             }
         }
         for (Appointment appointment : allApp) {
-            for (typeMonthContainer summary : summaries) {
+            for (TypeMonthContainer summary : summaries) {
                 if (appointment.getStart().getMonth().getValue() == summary.getMonthNum() &&
                         appointment.getType().equalsIgnoreCase(summary.getType())) {
                     summary.setCount(summary.getCount() + 1);

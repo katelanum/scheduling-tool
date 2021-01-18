@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.stage.Stage?>
 
-<Stage fx:id="typeSummStage" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.typeSummaryController">
+<Stage fx:id="typeSummStage" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.TypeSummaryController">
     <scene>
         <Scene fx:id="typeSummScene" fill="#00004f00">
             <AnchorPane fx:id="typeSummPane" prefHeight="447.0" prefWidth="386.0"

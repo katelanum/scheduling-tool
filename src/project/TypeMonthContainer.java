@@ -1,6 +1,6 @@
 package project;
 
-public class typeMonthContainer {
+public class TypeMonthContainer {
     private String type;
     private int monthNum;
     private int count;
