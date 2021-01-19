@@ -5,6 +5,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.time.*;
 
+/**
+ *  Appointment acts as an interface between the database and the backend code.
+ *  The Appointment object is a container for the data stored in the database.
+ *
+ * @author katelanum
+ */
 public class Appointment {
     private int appointmentId;
     private String title;
@@ -152,11 +158,23 @@ public class Appointment {
         this.customerName = customerName;
     }
 
+    /**
+     * The setStart function accepts a Timestamp and converts that to the current timezone.
+     * The class variable start is set to the resulting LocalDateTime object.
+     *
+     * @param startTime Timestamp to be converted.
+     */
     public void setStart(Timestamp startTime) {
         LocalDateTime localStart = startTime.toLocalDateTime();
         start = ZonedDateTime.of(localStart, ZoneId.systemDefault());
     }
 
+    /**
+     *  The setEnd function accepts a Timestamp and converts that to the current timezone.
+     *  The class variable start is set to the resulting LocalDateTime object.
+     *
+     * @param endTime Timestamp to be converted.
+     */
     public void setEnd(Timestamp endTime) {
         LocalDateTime localEnd= endTime.toLocalDateTime();
         end = ZonedDateTime.of(localEnd, ZoneId.systemDefault());

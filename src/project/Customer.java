@@ -3,6 +3,12 @@ package project;
 import java.sql.*;
 import java.time.LocalDateTime;
 
+/**
+ *  Customer acts as an interface between the database and the backend code.
+ *  The Customer object is a container for the data stored in the database.
+ *
+ * @author katelanum
+ */
 public class Customer {
     private int customerId;
     private String customerName;

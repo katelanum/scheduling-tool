@@ -3,7 +3,13 @@ package project;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-public class FirstLevelDivisions {
+/**
+ *  FirstLevelDivision acts as an interface between the database and the backend code.
+ *  The FirstLevelDivision object is a container for the data stored in the database.
+ *
+ * @author katelanum
+ */
+public class FirstLevelDivision {
     private int divisionId;
     private String divisionName;
     private Date createDate;
@@ -32,7 +38,6 @@ public class FirstLevelDivisions {
     public void setDivisionName(String divisionName) {
         this.divisionName = divisionName;
     }
-
 
     public int getCountryId() {
         return countryId;

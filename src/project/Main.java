@@ -6,10 +6,18 @@ import javafx.stage.Stage;
 import java.sql.*;
 import java.util.*;
 
-//colors: https://material.io/resources/color/#!/?view.left=0&view.right=1&primary.color=1A237E&secondary.color=761a7e
-
+/**
+ * Main class simply starts the application by loading the LoginScreen, the language resource bundle, and initializing
+ * the database
+ */
 public class Main extends Application {
-
+    /**
+     *Sets the resource bundle for the translation of the application and starts the LoginScreen
+     *
+     * @param primaryStage the main screen of the application
+     *
+     * @throws Exception if there is a problem loading the resource bundle or LoginScreen
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
         ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
@@ -17,6 +25,13 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    /**
+     *  Initializes the database
+     *
+     * @param args
+     *
+     * @throws SQLException if there is a problem initializing the database
+     */
     public static void main(String[] args) throws SQLException {
         try {
             Database.initializeDB();

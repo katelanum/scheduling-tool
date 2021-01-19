@@ -3,7 +3,13 @@ package project;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-public class Countries {
+/**
+ *  Country acts as an interface between the database and the backend code.
+ *  The Country object is a container for the data stored in the database.
+ *
+ * @author katelanum
+ */
+public class Country {
     private int countryID;
     private String countryName;
     private Date creationDate;
