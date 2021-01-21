@@ -159,7 +159,8 @@ public class LoginController {
      * Logs that there was a failed login attempt, including time information
      */
     private void logLoginFailure() {
-        String logString = languageBundle.getString("loginFailure") + ": " + currentDT.format(format);
+        String logString = languageBundle.getString("loginFailure") + ": " + "User ID: " + usernameBox.getText() + "Date and Time: "
+                + currentDT.format(format) + " /n";
         logInFile.log(Level.INFO, logString);
     }
 
@@ -167,7 +168,8 @@ public class LoginController {
      *  Logs that there was a successful login attempt, including time information
      */
     private void logLoginSuccess() {
-        String logString = languageBundle.getString("loginSuccess") + ": " + currentDT.format(format);
+        String logString = languageBundle.getString("loginSuccess") + ": " + "User ID: " + usernameBox.getText() + "Date and Time: "
+                + currentDT.format(format) + " /n";
         logInFile.log(Level.INFO, logString);
     }
 

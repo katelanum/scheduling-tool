@@ -236,7 +236,7 @@ public class Database {
                     "'script', 1 )");
             query.execute("INSERT INTO FirstLevelDivision(Division, Division_ID, Create_Date, Created_By, " +
                     "Last_Update, Last_Updated_By, COUNTRY_ID) VALUES('Oregon', 36, NOW(), 'script', NOW(), " +
-                    "script', 1 )");
+                    "'script', 1 )");
             query.execute("INSERT INTO FirstLevelDivision(Division, Division_ID, Create_Date, Created_By, " +
                     "Last_Update, Last_Updated_By, COUNTRY_ID) VALUES('Pennsylvania', 37, NOW(), 'script', NOW(), " +
                     "'script', 1 )");

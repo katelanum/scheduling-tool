@@ -8,7 +8,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import java.io.IOException;
 import java.sql.*;
 import java.util.Locale;
 import java.util.Optional;
@@ -148,9 +147,6 @@ public class CustomerController {
         if (!nameTextBox.getText().isEmpty()) {
             tempCust.setCustomerName(nameTextBox.getText());
         }
-//        if (!customerIdTextBox.getText().isEmpty()) {
-//            tempCust.setCustomerId(Integer.parseInt(customerIdTextBox.getText()));
-//        }
         if (!phoneTextBox.getText().isEmpty()) {
             tempCust.setCustomerPhone(phoneTextBox.getText());
         }
