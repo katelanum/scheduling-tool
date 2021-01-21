@@ -53,7 +53,8 @@ public class CustomerController {
     public TableColumn<Customer, String> customerStateColumn;
     private String addDeleteModStatus = "add";
     private final Alert customerScreenAlert = new Alert(Alert.AlertType.WARNING);
-    private static final ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
+    private static final ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources",
+            Locale.getDefault());
     private int custId;
     private Customer transferCust = new Customer();
     private static final Customer tempCust = new Customer();

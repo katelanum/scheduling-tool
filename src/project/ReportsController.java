@@ -54,7 +54,8 @@ public class ReportsController {
     private final ObservableList<String> monthList = FXCollections.observableArrayList();
     private final ObservableList<String> typeList = FXCollections.observableArrayList();
     private final ObservableList<String> locationList = FXCollections.observableArrayList();
-    private final ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
+    private final ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources",
+            Locale.getDefault());
     private final ObservableList<Appointment> allApp = FXCollections.observableArrayList();
     private final DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm MM-dd-yyyy");
     public TableColumn<Appointment,Integer> appointmentIdColumn;
@@ -148,8 +149,8 @@ public class ReportsController {
         ObservableList<Appointment> appointments =  FXCollections.observableArrayList();
         Database.initializeAppointmentList(appointments);
         for (Appointment appointment : appointments) {
-            if (!locationList.contains(appointment.getLocation())) {
-                locationList.add(appointment.getLocation());
+            if (!locationList.contains(appointment.getLocation().toLowerCase())) {
+                locationList.add(appointment.getLocation().toLowerCase());
             }
         }
         locationCombo.setItems(locationList);

@@ -250,21 +250,23 @@ public class AppointmentController {
             return false;
         }
         for (Appointment appointment : allApp) {
-            if (!tempApp.getStart().isAfter(appointment.getEnd()) &&
-                    !tempApp.getStart().isBefore(appointment.getStart())) {
-                appointmentScreenAlert.setTitle(languageBundle.getString("invalidTimeTitle"));
-                appointmentScreenAlert.setHeaderText(languageBundle.getString("doubleBookHeader"));
-                appointmentScreenAlert.setContentText(languageBundle.getString("doubleBookContent"));
-                appointmentScreenAlert.showAndWait();
-                return false;
-            }
-            if (!tempApp.getEnd().isBefore(appointment.getStart()) &&
-                    !tempApp.getEnd().isAfter(appointment.getEnd())) {
-                appointmentScreenAlert.setTitle(languageBundle.getString("invalidTimeTitle"));
-                appointmentScreenAlert.setHeaderText(languageBundle.getString("doubleBookHeader"));
-                appointmentScreenAlert.setContentText(languageBundle.getString("doubleBookContent"));
-                appointmentScreenAlert.showAndWait();
-                return false;
+            if (tempApp.getAppointmentId() != appointment.getAppointmentId()) {
+                if (!tempApp.getStart().isAfter(appointment.getEnd()) &&
+                        !tempApp.getStart().isBefore(appointment.getStart())) {
+                    appointmentScreenAlert.setTitle(languageBundle.getString("invalidTimeTitle"));
+                    appointmentScreenAlert.setHeaderText(languageBundle.getString("doubleBookHeader"));
+                    appointmentScreenAlert.setContentText(languageBundle.getString("doubleBookContent"));
+                    appointmentScreenAlert.showAndWait();
+                    return false;
+                }
+                if (!tempApp.getEnd().isBefore(appointment.getStart()) &&
+                        !tempApp.getEnd().isAfter(appointment.getEnd())) {
+                    appointmentScreenAlert.setTitle(languageBundle.getString("invalidTimeTitle"));
+                    appointmentScreenAlert.setHeaderText(languageBundle.getString("doubleBookHeader"));
+                    appointmentScreenAlert.setContentText(languageBundle.getString("doubleBookContent"));
+                    appointmentScreenAlert.showAndWait();
+                    return false;
+                }
             }
         }
         return true;

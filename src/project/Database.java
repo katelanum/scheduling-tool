@@ -955,4 +955,24 @@ public class Database {
         }
     }
 
+    /**
+     * Gets the userId affiliated to a username from the database
+     *
+     * @param username the string being searched for matches in the database with rows where the User_Name matches
+     *
+     * @return String of the userId that was searched for
+     *
+     * @throws SQLException if there is a SQL syntax error or other database error while getting the userId information
+     */
+    public static String getUserId(String username) throws SQLException {
+        ResultSet userRes;
+        String sqlQuery = "SELECT User_ID FROM User WHERE User_Name =  '" + username + "'";
+        Statement query = connection.createStatement();
+        userRes = query.executeQuery(sqlQuery);
+        while (userRes.next()) {
+            return userRes.getString("User_ID");
+        }
+        return "";
+    }
+
 }

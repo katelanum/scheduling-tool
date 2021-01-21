@@ -89,9 +89,12 @@ public class LoginController {
      *  there are no appointments within 15 minutes of the user logging in, they are alerted. The ScheduleScreen is
      *  then loaded and the LoginScreen is closed.
      *
-     * @throws IOException if getting either the user or appointment information from the database causes an error
+     * @throws IOException if there is a problem dealing with the mouse clicks on either the login button or the
+     * confirmation button
+     *
+     * @throws SQLException if getting either the user or appointment information from the database causes an error
      */
-    public void logIn() throws IOException {
+    public void logIn() throws IOException, SQLException {
         String userId = usernameBox.getText();
         String pass = passwordBox.getText();
         if(!loginMap.containsKey(userId)) {
@@ -127,7 +130,8 @@ public class LoginController {
                 if (confirmation.get() == ButtonType.OK) {
                     Stage currentStage = (Stage) logInButton.getScene().getWindow();
                     currentStage.close();
-                    ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
+                    ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources",
+                            Locale.getDefault());
                     Stage loader = FXMLLoader.load(getClass().getResource("ScheduleScreen.fxml"), languageBundle);
                     LocalTime current = LocalTime.now();
                     Database.timeCheck(current);
@@ -138,14 +142,15 @@ public class LoginController {
                 StringBuilder listContent = new StringBuilder();
                 confirmationAlert.setHeaderText(languageBundle.getString("fifteenAppHeader"));
                 for (String s : fifteenMinList) {
-                    listContent.append(s).append("/n");
+                    listContent.append(s).append("\n");
                 }
                 confirmationAlert.setContentText(String.valueOf(listContent));
                 Optional<ButtonType> confirmation = confirmationAlert.showAndWait();
                 if (confirmation.get() == ButtonType.OK) {
                     Stage currentStage = (Stage) logInButton.getScene().getWindow();
                     currentStage.close();
-                    ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
+                    ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources",
+                            Locale.getDefault());
                     Stage loader = FXMLLoader.load(getClass().getResource("ScheduleScreen.fxml"), languageBundle);
                     LocalTime current = LocalTime.now();
                     Database.timeCheck(current);
@@ -159,17 +164,21 @@ public class LoginController {
      * Logs that there was a failed login attempt, including time information
      */
     private void logLoginFailure() {
-        String logString = languageBundle.getString("loginFailure") + ": " + "User ID: " + usernameBox.getText() + "Date and Time: "
-                + currentDT.format(format) + " /n";
+        String logString = languageBundle.getString("loginFailure") + ": " + "Username Input: " + usernameBox.getText() + "\t" +
+                "Password Input: " + passwordBox.getText() + "\t" + "Date and Time: " + currentDT.format(format) +
+                "\n";
         logInFile.log(Level.INFO, logString);
     }
 
     /**
-     *  Logs that there was a successful login attempt, including time information
+     * Logs that there was a successful login attempt
+     *
+     * @throws SQLException if pulling the user Id from the database fails
      */
-    private void logLoginSuccess() {
-        String logString = languageBundle.getString("loginSuccess") + ": " + "User ID: " + usernameBox.getText() + "Date and Time: "
-                + currentDT.format(format) + " /n";
+    private void logLoginSuccess() throws SQLException {
+        String logString = languageBundle.getString("loginSuccess") + ": " + "User ID: " +
+                Database.getUserId(usernameBox.getText()) + "\t" + "Username: " + usernameBox.getText() + "\t" +
+                "Date and Time: " + currentDT.format(format) + "\n";
         logInFile.log(Level.INFO, logString);
     }
 
@@ -185,9 +194,11 @@ public class LoginController {
      *
      * @param keyEvent the Enter key being pressed
      *
-     * @throws IOException if getting either the user or appointment information from the database causes an error
+     * @throws IOException if getting the key press information fails
+     *
+     * @throws SQLException if getting the user or appointment information from the database causes an error
      */
-    public void keyRelease(KeyEvent keyEvent) throws IOException {
+    public void keyRelease(KeyEvent keyEvent) throws IOException, SQLException {
         if (keyEvent.getCode() == KeyCode.ENTER) {
             String userId = usernameBox.getText();
             String pass = passwordBox.getText();
@@ -220,8 +231,10 @@ public class LoginController {
                         if (confirmation.get() == ButtonType.OK) {
                             Stage currentStage = (Stage) logInButton.getScene().getWindow();
                             currentStage.close();
-                            ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
-                            Stage loader = FXMLLoader.load(getClass().getResource("ScheduleScreen.fxml"), languageBundle);
+                            ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources",
+                                    Locale.getDefault());
+                            Stage loader = FXMLLoader.load(getClass().getResource("ScheduleScreen.fxml"),
+                                    languageBundle);
                             LocalTime current = LocalTime.now();
                             Database.timeCheck(current);
                             loader.show();
@@ -233,8 +246,10 @@ public class LoginController {
                 if (confirmation.get() == ButtonType.OK) {
                     Stage currentStage = (Stage) logInButton.getScene().getWindow();
                     currentStage.close();
-                    ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
-                    Stage loader = FXMLLoader.load(getClass().getResource("ScheduleScreen.fxml"), languageBundle);
+                    ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources",
+                            Locale.getDefault());
+                    Stage loader = FXMLLoader.load(getClass().getResource("ScheduleScreen.fxml"),
+                            languageBundle);
                     LocalTime current = LocalTime.now();
                     Database.timeCheck(current);
                     loader.show();
