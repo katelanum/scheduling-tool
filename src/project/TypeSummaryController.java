@@ -1,5 +1,6 @@
 package project;
 
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -10,6 +11,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * TypeSummaryController acts as an interface between the database and TypeSummaryScreen.fxml
@@ -29,16 +33,20 @@ public class TypeSummaryController {
     private final ObservableList<Appointment> allApp = FXCollections.observableArrayList();
     private ObservableList<TypeMonthContainer> summaries = FXCollections.observableArrayList();
     private final ObservableList<String> typesList = FXCollections.observableArrayList();
+    private final ResourceBundle languageBundle = ResourceBundle.getBundle("project/resources", Locale.getDefault());
 
     /**
      * Populates the allApp list from the database, then initializes the summaries list using intializeSummaries(), and
      * finally sets the table view to display the contents of the summaries list
+     * <p>
+     * Uses a lambda to populate the month column from the summaries list with a localized month name
      */
     public void initialize() {
         Database.initializeAppointmentList(allApp);
         typeTableView.setEditable(true);
         countColumn.setCellValueFactory(new PropertyValueFactory<>("count"));
-        monthColumn.setCellValueFactory(new PropertyValueFactory<>("month"));
+        monthColumn.setCellValueFactory((typeMonth) -> new ReadOnlyStringWrapper(typeMonth.getValue()
+                .getMonth(languageBundle)));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         initializeSummaries();
         typeTableView.setItems(summaries);

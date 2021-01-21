@@ -30,6 +30,7 @@ public class Database {
         try {
             Class.forName(JDBCDriver);
             connection = DriverManager.getConnection(databaseURL, databaseUsername, databasePassword);
+
         } catch (ClassNotFoundException | SQLException dbEx) {
             dbEx.printStackTrace();
         }
@@ -359,6 +360,17 @@ public class Database {
      * commands on the database
      */
     public static void popContactsList(ObservableList<Contact> contactList) throws SQLException {
+        final String JDBCDriver = "com.mysql.jdbc.Driver";
+        final String databaseURL = "jdbc:mysql://wgudb.ucertify.com/WJ03Pjl";
+        final String databaseUsername = "U03Pjl";
+        final String databasePassword = "53688043361";
+        try {
+            Class.forName(JDBCDriver);
+            connection = DriverManager.getConnection(databaseURL, databaseUsername, databasePassword);
+
+        } catch (ClassNotFoundException | SQLException dbEx) {
+            dbEx.printStackTrace();
+        }
         ResultSet contactRes;
         Statement query = connection.createStatement();
         String sqlQuery = "SELECT * FROM Contact";
@@ -381,6 +393,17 @@ public class Database {
      * @param custList the list of customers from the Controller that is using the list
      */
     public static void initializeCustomerList(ObservableList<Customer> custList) {
+        final String JDBCDriver = "com.mysql.jdbc.Driver";
+        final String databaseURL = "jdbc:mysql://wgudb.ucertify.com/WJ03Pjl";
+        final String databaseUsername = "U03Pjl";
+        final String databasePassword = "53688043361";
+        try {
+            Class.forName(JDBCDriver);
+            connection = DriverManager.getConnection(databaseURL, databaseUsername, databasePassword);
+
+        } catch (ClassNotFoundException | SQLException dbEx) {
+            dbEx.printStackTrace();
+        }
         ResultSet custResults;
         ResultSet temp;
         try {
@@ -424,6 +447,17 @@ public class Database {
      * @param appList the list of appointments from the Controller that is using the list
      */
     public static void initializeAppointmentList(ObservableList<Appointment> appList) {
+        final String JDBCDriver = "com.mysql.jdbc.Driver";
+        final String databaseURL = "jdbc:mysql://wgudb.ucertify.com/WJ03Pjl";
+        final String databaseUsername = "U03Pjl";
+        final String databasePassword = "53688043361";
+        try {
+            Class.forName(JDBCDriver);
+            connection = DriverManager.getConnection(databaseURL, databaseUsername, databasePassword);
+
+        } catch (ClassNotFoundException | SQLException dbEx) {
+            dbEx.printStackTrace();
+        }
         ResultSet appResults;
         try {
             Statement query = connection.createStatement();
@@ -745,6 +779,17 @@ public class Database {
      * commands on the database
      */
     public static void getFLD (ObservableList <FirstLevelDivision> fldList, int countryID) throws SQLException {
+        final String JDBCDriver = "com.mysql.jdbc.Driver";
+        final String databaseURL = "jdbc:mysql://wgudb.ucertify.com/WJ03Pjl";
+        final String databaseUsername = "U03Pjl";
+        final String databasePassword = "53688043361";
+        try {
+            Class.forName(JDBCDriver);
+            connection = DriverManager.getConnection(databaseURL, databaseUsername, databasePassword);
+
+        } catch (ClassNotFoundException | SQLException dbEx) {
+            dbEx.printStackTrace();
+        }
         ResultSet fldResults;
         String sqlQuery = "SELECT FirstLevelDivision.Division, FirstLevelDivision.Division_Id, " +
                 "FirstLevelDivision.Country_ID, Country.Country" +
@@ -803,6 +848,17 @@ public class Database {
      * commands on the database
      */
     public static void getCountry (ObservableList <Country> countryList) throws SQLException {
+        final String JDBCDriver = "com.mysql.jdbc.Driver";
+        final String databaseURL = "jdbc:mysql://wgudb.ucertify.com/WJ03Pjl";
+        final String databaseUsername = "U03Pjl";
+        final String databasePassword = "53688043361";
+        try {
+            Class.forName(JDBCDriver);
+            connection = DriverManager.getConnection(databaseURL, databaseUsername, databasePassword);
+
+        } catch (ClassNotFoundException | SQLException dbEx) {
+            dbEx.printStackTrace();
+        }
         ResultSet countryResults;
         String sqlQuery = "SELECT * FROM Country";
         Statement query = connection.createStatement();
@@ -849,6 +905,17 @@ public class Database {
      * commands on the database
      */
     public static void popLogInHash (HashMap < String, String > loginHash) throws SQLException {
+        final String JDBCDriver = "com.mysql.jdbc.Driver";
+        final String databaseURL = "jdbc:mysql://wgudb.ucertify.com/WJ03Pjl";
+        final String databaseUsername = "U03Pjl";
+        final String databasePassword = "53688043361";
+        try {
+            Class.forName(JDBCDriver);
+            connection = DriverManager.getConnection(databaseURL, databaseUsername, databasePassword);
+
+        } catch (ClassNotFoundException | SQLException dbEx) {
+            dbEx.printStackTrace();
+        }
         ResultSet loginResults;
         String sqlQuery = "SELECT User_Name, Password FROM User";
         Statement query = connection.createStatement();
@@ -868,6 +935,17 @@ public class Database {
      * commands on the database
      */
     public static void userList(ObservableList<String> userList) throws SQLException {
+        final String JDBCDriver = "com.mysql.jdbc.Driver";
+        final String databaseURL = "jdbc:mysql://wgudb.ucertify.com/WJ03Pjl";
+        final String databaseUsername = "U03Pjl";
+        final String databasePassword = "53688043361";
+        try {
+            Class.forName(JDBCDriver);
+            connection = DriverManager.getConnection(databaseURL, databaseUsername, databasePassword);
+
+        } catch (ClassNotFoundException | SQLException dbEx) {
+            dbEx.printStackTrace();
+        }
         ResultSet userRes;
         String sqlQuery = "SELECT User_ID FROM User";
         Statement query = connection.createStatement();

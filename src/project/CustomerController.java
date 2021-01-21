@@ -148,9 +148,9 @@ public class CustomerController {
         if (!nameTextBox.getText().isEmpty()) {
             tempCust.setCustomerName(nameTextBox.getText());
         }
-        if (!customerIdTextBox.getText().isEmpty()) {
-            tempCust.setCustomerId(Integer.parseInt(customerIdTextBox.getText()));
-        }
+//        if (!customerIdTextBox.getText().isEmpty()) {
+//            tempCust.setCustomerId(Integer.parseInt(customerIdTextBox.getText()));
+//        }
         if (!phoneTextBox.getText().isEmpty()) {
             tempCust.setCustomerPhone(phoneTextBox.getText());
         }
@@ -196,8 +196,10 @@ public class CustomerController {
     }
 
     /**
+     * Upon selecting the delete radio button, it sets the addDeleteModStatus to "delete" and then populates the
+     * tempCust with the infromation from the Customer selected in the table view
      *
-     * @throws SQLException
+     * @throws SQLException if something goes wrong while pulling the customer data from the database
      */
     public void customerDeleteClick() throws SQLException {
         addDeleteModStatus = "delete";
